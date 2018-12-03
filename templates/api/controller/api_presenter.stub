@@ -7,7 +7,7 @@ use $NAMESPACE_API_TRANSFORMER$\$MODEL_NAME$Transformer;
 /**
  * Class $MODEL_NAME$Presenter.
  *
- * @package namespace $NAMESPACE_API_PRESENTER$\Presenters;
+ * @package namespace $NAMESPACE_API_PRESENTER$;
  */
 class $MODEL_NAME$Presenter extends BasePresenter
 {
