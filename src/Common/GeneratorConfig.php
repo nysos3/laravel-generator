@@ -273,7 +273,7 @@ class GeneratorConfig
 
         $commandData->addDynamicVariable(
             '$API_CONTENT_TYPE$',
-            config('laravel_generator.api_version', 'v1')
+            config('laravel_generator.api_version', 'application/json')
         );
 
         return $commandData;
