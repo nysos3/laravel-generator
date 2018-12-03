@@ -19,6 +19,7 @@ class VueModelGenerator extends BaseGenerator
     protected $excluded_fields = [
         'created_at',
         'updated_at',
+        'deleted_at',
     ];
 
     /** @var CommandData */
