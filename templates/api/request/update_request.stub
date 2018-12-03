@@ -15,7 +15,7 @@ use InfyOm\Generator\Request\APIRequest;
  *   @OA\MediaType(
  *     mediaType="$API_CONTENT_TYPE$",
  *     @OA\Schema(
- *       @OA\Property(property="placeholder",ref="#/components/schemas/$MODEL_NAME$/properties/attributes/properties/placeholder")
+ *       @OA\Property(property="placeholder",ref="#/components/schemas/$MODEL_NAME$/properties/attributes/properties/placeholder"),
  *     )
  *   )
  * )

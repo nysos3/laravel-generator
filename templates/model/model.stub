@@ -5,14 +5,24 @@ namespace $NAMESPACE_MODEL$;
 use $NAMESPACE_MODEL_EXTEND$ as Model;
 $SOFT_DELETE_IMPORT$
 $DOCS$
-class $MODEL_NAME$ extends Model
+
+// TODO: Move properties into attributes property, add id property, fill required
+// attributes example:
+//    @OA\Property(
+//      property="attributes",
+//      type="object",
+//      ALL_PROPERTIES_EXCEPT_ID_GO_HERE
+//    )
+
+class $MODEL_NAME$ extends BaseModel
 {
 $SOFT_DELETE$
     public $table = '$TABLE_NAME$';
     $TIMESTAMPS$
+    // TODO: Add `const DELETED_AT = 'deleted_at';` if applicable
 $SOFT_DELETE_DATES$
 $PRIMARY$
-    public $fillable = [
+    public $fillable = [ // TODO: Correct $fillable
         $FIELDS$
     ];
 
@@ -21,7 +31,7 @@ $PRIMARY$
      *
      * @var array
      */
-    protected $casts = [
+    protected $casts = [ // TODO: Correct $casts
         $CAST$
     ];
 
@@ -30,9 +40,11 @@ $PRIMARY$
      *
      * @var array
      */
-    public static $rules = [
+    public static $rules = [ // TODO: Fill $rules
         $RULES$
     ];
+
+    // TODO: Fill relations
 
     $RELATIONS$
 }

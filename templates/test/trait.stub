@@ -43,7 +43,7 @@ trait Make$MODEL_NAME$Trait
   {
     $fake = Faker::create();
 
-    return array_merge([
+    return array_merge([ // TODO: Update Faker fields
       $FIELDS$
     ], $$MODEL_NAME_CAMEL$Fields);
   }
