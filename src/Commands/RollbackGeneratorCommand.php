@@ -40,7 +40,7 @@ class RollbackGeneratorCommand extends Command
      *
      * @var string
      */
-    protected $name = 'infyom:rollback';
+    protected $name = 'generate:smart:rollback';
     /**
      * The console command description.
      *

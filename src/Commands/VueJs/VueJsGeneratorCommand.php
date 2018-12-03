@@ -21,7 +21,7 @@ class VueJsGeneratorCommand extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'infyom:vuejs';
+    protected $name = 'generate:smart:vuejs';
 
     /**
      * The console command description.
