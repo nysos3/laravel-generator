@@ -107,6 +107,8 @@ return [
 
     'api_version' => 'v1',
 
+    'api_content_type' => 'application/vnd.api+json',
+
     /*
     |--------------------------------------------------------------------------
     | Options
