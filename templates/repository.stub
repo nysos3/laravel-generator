@@ -25,6 +25,7 @@ class $MODEL_NAME$Repository extends BaseRepository
     public function create(array $attributes)
     {
       // TODO: Update any create transformations
+      $attributes['account_id'] = auth()->user()->current_account_id;
       return parent::create($attributes);
     }
 }
