@@ -38,7 +38,7 @@ class $MODEL_NAME$ApiTest extends TestCase
     $$MODEL_NAME_CAMEL$ = $this->make$MODEL_NAME$();
     $edited$MODEL_NAME$ = $this->fake$MODEL_NAME$Data();
 
-    $this->actingAs($this->authData())->json('PUT', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$/'.$$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, $edited$MODEL_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
+    $this->actingAs($this->authData())->json('PATCH', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$/'.$$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, $edited$MODEL_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
 
     $this->assertApiResponse($edited$MODEL_NAME$);
   }
