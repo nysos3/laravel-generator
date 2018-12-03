@@ -12,6 +12,16 @@ use League\Fractal\TransformerAbstract;
  */
 class $MODEL_NAME$Transformer extends TransformerAbstract
 {
+
+  /**
+   * List of resources possible to include
+   *
+   * @var array
+   */
+  protected $availableIncludes = [ // TODO: Update $availableIncludes
+    // 'relation'
+  ];
+
   /**
    * Transform the $MODEL_NAME$ entity.
    *
@@ -27,5 +37,18 @@ class $MODEL_NAME$Transformer extends TransformerAbstract
       'created_at' => $$MODEL_NAME_CAMEL$->created_at,
       'updated_at' => $$MODEL_NAME_CAMEL$->updated_at
     ];
+  }
+
+  // TODO: Add relations
+  /**
+   * Include Relation
+   *
+   * @param \App\Models\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
+   *
+   * @return \League\Fractal\Resource\Item
+   */
+  public function includeRelation($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
+  {
+    // return $this->item($$MODEL_NAME_CAMEL$->relation, new RelationTransformer, 'relations');
   }
 }
