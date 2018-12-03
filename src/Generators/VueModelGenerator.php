@@ -65,13 +65,15 @@ class VueModelGenerator extends BaseGenerator
             if ($field->isFillable) {
                 $camel = Str::camel($field->name);
                 $options = [];
-                if(in_array($field->name,$this->excluded_fields))
+                if(in_array($field->name,$this->excluded_fields)) {
                   $options['persist'] = 'false';
-                $options = json_encode($options);
-                if(empty($options))
+                }
+                if(empty($options)) {
                   $fields[] = "{$camel}: attr()";
-                else
+                } else {
+                  $options = json_encode($options);
                   $fields[] = "{$camel}: attr({$options})";
+                }
             }
         }
 

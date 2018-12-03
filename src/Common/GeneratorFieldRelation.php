@@ -94,7 +94,7 @@ class GeneratorFieldRelation
 
         if (!empty($functionName) and !empty($relation)) {
             $modelPlural = camel_case(str_plural($modelName));
-            return "{$functionName}: {$relation}({$modelPlural})";
+            return "{$functionName}: {$relation}('{$modelPlural}')";
         }
 
         return '';
