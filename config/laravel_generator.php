@@ -31,9 +31,9 @@ return [
 
         'api_controller'    => app_path('Http/Controllers/API/'),
 
-        'api_transformer'    => app_path('Http/Transformers/'),
+        'api_transformer'   => app_path('Http/Transformers/'),
 
-        'api_presenter'    => app_path('Http/Presenters/'),
+        'api_presenter'     => app_path('Http/Presenters/'),
 
         'test_trait'        => base_path('tests/traits/'),
 

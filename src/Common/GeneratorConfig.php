@@ -26,6 +26,7 @@ class GeneratorConfig
     /* Path variables */
     public $pathRepository;
     public $pathModel;
+    public $pathVueModel;
     public $pathDataTables;
 
     public $pathApiController;
@@ -173,6 +174,11 @@ class GeneratorConfig
         $this->pathModel = config('laravel_generator.path.model', app_path('Models/')).$prefix;
         if (config('laravel_generator.ignore_model_prefix', false)) {
             $this->pathModel = config('laravel_generator.path.model', app_path('Models/'));
+        }
+
+        $this->pathVueModel = config('laravel_generator.path.modelJs', app_path('Models/')).$prefix;
+        if (config('laravel_generator.ignore_model_prefix', false)) {
+            $this->pathVueModel = config('laravel_generator.path.modelJs', app_path('Models/'));
         }
 
         $this->pathDataTables = config('laravel_generator.path.datatables', app_path('DataTables/')).$prefix;

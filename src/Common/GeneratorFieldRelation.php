@@ -62,6 +62,44 @@ class GeneratorFieldRelation
         return '';
     }
 
+    public function getRelationFunctionTextVue()
+    {
+        $modelName = $this->inputs[0];
+        switch ($this->type) {
+            case '1t1':
+                $functionName = camel_case($modelName);
+                $relation = 'hasOne';
+                break;
+            case '1tm':
+                $functionName = camel_case(str_plural($modelName));
+                $relation = 'hasMany';
+                break;
+            case 'mt1':
+                $functionName = camel_case($modelName);
+                $relation = 'belongsTo';
+                break;
+            case 'mtm':
+                $functionName = camel_case(str_plural($modelName));
+                $relation = 'belongsTo';
+                break;
+            case 'hmt':
+                $functionName = camel_case(str_plural($modelName));
+                $relation = 'hasMany';
+                break;
+            default:
+                $functionName = '';
+                $relation = '';
+                break;
+        }
+
+        if (!empty($functionName) and !empty($relation)) {
+            $modelPlural = camel_case(str_plural($modelName));
+            return "{$functionName}: {$relation}({$modelPlural})";
+        }
+
+        return '';
+    }
+
     private function generateRelation($functionName, $relation, $relationClass)
     {
         $inputs = $this->inputs;

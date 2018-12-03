@@ -12,6 +12,7 @@ use InfyOm\Generator\Generators\API\APIRoutesGenerator;
 use InfyOm\Generator\Generators\API\APITestGenerator;
 use InfyOm\Generator\Generators\MigrationGenerator;
 use InfyOm\Generator\Generators\ModelGenerator;
+use InfyOm\Generator\Generators\VueModelGenerator;
 use InfyOm\Generator\Generators\RepositoryGenerator;
 use InfyOm\Generator\Generators\RepositoryTestGenerator;
 use InfyOm\Generator\Generators\Scaffold\ControllerGenerator;
@@ -66,6 +67,11 @@ class BaseCommand extends Command
         if (!$this->isSkip('model')) {
             $modelGenerator = new ModelGenerator($this->commandData);
             $modelGenerator->generate();
+        }
+
+        if (!$this->isSkip('vueModel')) {
+            $vueModelGenerator = new VueModelGenerator($this->commandData);
+            $vueModelGenerator->generate();
         }
 
         if (!$this->isSkip('repository')) {
