@@ -80,7 +80,7 @@ class VueModelGenerator extends BaseGenerator
         foreach($relations as $relation)
           $fields[] = $relation;
 
-        $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 2), $fields), $templateData);
+        $templateData = str_replace('$FIELDS$', implode(','.PHP_EOL.'      ', $fields), $templateData);
 
         return $templateData;
     }
