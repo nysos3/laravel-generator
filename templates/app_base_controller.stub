@@ -6,9 +6,9 @@ use InfyOm\Generator\Utils\ResponseUtil;
 use Response;
 
 /**
- * @SWG\Swagger(
+ * @OA\Swagger(
  *   basePath="/$API_PREFIX$/$API_VERSION$",
- *   @SWG\Info(
+ *   @OA\Info(
  *     title="Laravel Generator APIs",
  *     version="1.0.0",
  *   )
@@ -18,13 +18,56 @@ use Response;
  */
 class AppBaseController extends Controller
 {
-    public function sendResponse($result, $message)
-    {
-        return Response::json(ResponseUtil::makeResponse($message, $result));
+  private function prepareResult(&$result, $message) {
+    if (array_key_exists('meta', $result)) {
+      $result['meta']['message'] = $message;
     }
+    $result['jsonapi'] = ['version' => '1.0'];
+  }
+  public function sendIndex($result, $message)
+  {
+    $this->prepareResult($result, $message);
+    return Response::json($result, 200, ['Content-Type' => '$API_CONTENT_TYPE$'], config('app.json_return', JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+  }
 
-    public function sendError($error, $code = 404)
-    {
-        return Response::json(ResponseUtil::makeError($error), $code);
-    }
+  public function sendStore($result, $message)
+  {
+    $this->prepareResult($result, $message);
+    return Response::json($result, 201, ['Content-Type' => '$API_CONTENT_TYPE$'], config('app.json_return', JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+  }
+
+  public function sendShow($result, $message)
+  {
+    $this->prepareResult($result, $message);
+    return Response::json($result, 200, ['Content-Type' => '$API_CONTENT_TYPE$'], config('app.json_return', JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+  }
+
+  public function sendUpdate($result, $message)
+  {
+    $this->prepareResult($result, $message);
+    return Response::json($result, 200, ['Content-Type' => '$API_CONTENT_TYPE$'], config('app.json_return', JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+  }
+
+  public function sendDestroy($result, $message)
+  {
+    $result = [
+      'meta' => [
+        'id' => $result,
+        'message' => $message
+      ]
+    ];
+    return Response::json($result, 200, ['Content-Type' => '$API_CONTENT_TYPE$'], config('app.json_return', JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+  }
+
+  public function sendError($error, $code = 404)
+  {
+    $ret = [
+      'errors' => [[
+        'status' => (string)$code,
+        'code' => 'I:' . str_replace('/', ':', request()->path()),
+        'title' => $error
+      ]]
+    ];
+    return Response::json($ret, $code);
+  }
 }

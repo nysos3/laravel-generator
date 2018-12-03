@@ -31,6 +31,10 @@ return [
 
         'api_controller'    => app_path('Http/Controllers/API/'),
 
+        'api_transformer'    => app_path('Http/Transformers/'),
+
+        'api_presenter'    => app_path('Http/Presenters/'),
+
         'test_trait'        => base_path('tests/traits/'),
 
         'repository_test'   => base_path('tests/'),
@@ -64,6 +68,10 @@ return [
         'controller'        => 'App\Http\Controllers',
 
         'api_controller'    => 'App\Http\Controllers\API',
+
+        'api_transformer'   => 'App\Http\Transformers',
+
+        'api_presenter'     => 'App\Http\Presenters',
 
         'request'           => 'App\Http\Requests',
 

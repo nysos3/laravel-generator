@@ -1,8 +1,10 @@
 <?php
 namespace Tests;
+
+use PHPUnit\Framework\Assert as PHPUnit;
 trait ApiTestTrait
 {
-  public function assertApiResponse(Array $actualData)
+  public function assertApiResponse(array $actualData)
   {
     $this->assertApiSuccess();
 
@@ -10,18 +12,36 @@ trait ApiTestTrait
     $responseData = $response['data'];
 
     $this->assertNotEmpty($responseData['id']);
-    $this->assertModelData($actualData, $responseData);
+    $this->assertApiModelData($actualData, $responseData);
   }
 
   public function assertApiSuccess()
   {
-    $this->assertResponseOk();
-    $this->seeJson(['success' => true]);
+    $actual = $this->response->getStatusCode();
+    PHPUnit::assertTrue($this->response->isSuccessful(), "Expected status code 2XX, got {$actual}.");
   }
 
-  public function assertModelData(Array $actualData, Array $expectedData)
+  public function assertApiModelData(array $actualData, array $expectedData)
+  {
+    $expectedData['attributes']['id'] = $expectedData['id'];
+    $expectedData = $expectedData['attributes'];
+
+    foreach ($actualData as $key => $value) {
+      if(in_array($key, ['created_at','updated_at','modified','created','deleted_at']) && !empty($actualData[$key])) {
+        $actualData[$key] = str_replace(['Z', ' '], ['', 'T'],$actualData[$key]) . 'Z';
+        $expectedData[$key] = str_replace(['Z', ' '], ['', 'T'],$expectedData[$key]) . 'Z';
+      }
+      $this->assertEquals($actualData[$key], $expectedData[$key]);
+    }
+  }
+
+  public function assertRepositoryModelData(array $actualData, array $expectedData)
   {
     foreach ($actualData as $key => $value) {
+      if(in_array($key, ['created_at','updated_at','modified','created','deleted_at']) && !empty($actualData[$key])) {
+        $actualData[$key] = str_replace(['Z', ' '], ['', 'T'],$actualData[$key]) . 'Z';
+        $expectedData[$key] = str_replace(['Z', ' '], ['', 'T'],$expectedData[$key]) . 'Z';
+      }
       $this->assertEquals($actualData[$key], $expectedData[$key]);
     }
   }

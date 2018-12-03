@@ -5,6 +5,8 @@ namespace InfyOm\Generator\Commands;
 use Illuminate\Console\Command;
 use InfyOm\Generator\Common\CommandData;
 use InfyOm\Generator\Generators\API\APIControllerGenerator;
+use InfyOm\Generator\Generators\API\APIPTransformerGenerator;
+use InfyOm\Generator\Generators\API\APIPresenterGenerator;
 use InfyOm\Generator\Generators\API\APIRequestGenerator;
 use InfyOm\Generator\Generators\API\APIRoutesGenerator;
 use InfyOm\Generator\Generators\API\APITestGenerator;
@@ -96,6 +98,12 @@ class RollbackGeneratorCommand extends Command
 
         $controllerGenerator = new APIControllerGenerator($this->commandData);
         $controllerGenerator->rollback();
+
+        $presenterGenerator = new APIPresenterGenerator($this->commandData);
+        $presenterGenerator->rollback();
+
+        $transformerGenerator = new APITransformerGenerator($this->commandData);
+        $transformerGenerator->rollback();
 
         $routesGenerator = new APIRoutesGenerator($this->commandData);
         $routesGenerator->rollback();

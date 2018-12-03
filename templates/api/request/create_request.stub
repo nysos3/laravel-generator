@@ -4,6 +4,7 @@ namespace $NAMESPACE_API_REQUEST$;
 
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use InfyOm\Generator\Request\APIRequest;
+
 /**
  * Class Create$MODEL_NAME$APIRequest
  *
@@ -11,9 +12,17 @@ use InfyOm\Generator\Request\APIRequest;
  *   request="Create$MODEL_NAME$",
  *   description="Store a newly created $MODEL_NAME$ in storage",
  *   required=true,
- *   @OA\JsonContent(ref="#/components/schemas/$MODEL_NAME$")
+ *   @OA\MediaType(
+ *     mediaType="$API_CONTENT_TYPE$",
+ *     @OA\Schema(
+ *       @OA\Property(property="placeholder",ref="#/components/schemas/$MODEL_NAME$/properties/attributes/properties/placeholder"),
+ *     )
+ *   )
  * )
  */
+
+// TODO: Update above annotations
+
 class Create$MODEL_NAME$APIRequest extends APIRequest
 {
     /**
@@ -23,7 +32,7 @@ class Create$MODEL_NAME$APIRequest extends APIRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**

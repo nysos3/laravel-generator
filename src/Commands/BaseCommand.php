@@ -5,6 +5,8 @@ namespace InfyOm\Generator\Commands;
 use Illuminate\Console\Command;
 use InfyOm\Generator\Common\CommandData;
 use InfyOm\Generator\Generators\API\APIControllerGenerator;
+use InfyOm\Generator\Generators\API\APITransformerGenerator;
+use InfyOm\Generator\Generators\API\APIPresenterGenerator;
 use InfyOm\Generator\Generators\API\APIRequestGenerator;
 use InfyOm\Generator\Generators\API\APIRoutesGenerator;
 use InfyOm\Generator\Generators\API\APITestGenerator;
@@ -82,6 +84,16 @@ class BaseCommand extends Command
         if (!$this->isSkip('controllers') and !$this->isSkip('api_controller')) {
             $controllerGenerator = new APIControllerGenerator($this->commandData);
             $controllerGenerator->generate();
+        }
+
+        if (!$this->isSkip('transformers') and !$this->isSkip('api_transformer')) {
+            $transformerGenerator = new APITransformerGenerator($this->commandData);
+            $transformerGenerator->generate();
+        }
+
+        if (!$this->isSkip('presenters') and !$this->isSkip('api_presenter')) {
+            $presenterGenerator = new APIPresenterGenerator($this->commandData);
+            $presenterGenerator->generate();
         }
 
         if (!$this->isSkip('routes') and !$this->isSkip('api_routes')) {

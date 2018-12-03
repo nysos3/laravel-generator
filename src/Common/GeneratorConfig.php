@@ -14,6 +14,8 @@ class GeneratorConfig
     public $nsModelExtend;
 
     public $nsApiController;
+    public $nsApiTransformer;
+    public $nsApiPresenter;
     public $nsApiRequest;
 
     public $nsRequest;
@@ -27,6 +29,8 @@ class GeneratorConfig
     public $pathDataTables;
 
     public $pathApiController;
+    public $pathApiTransformer;
+    public $pathApiPresenter;
     public $pathApiRequest;
     public $pathApiRoutes;
     public $pathApiTests;
@@ -128,6 +132,17 @@ class GeneratorConfig
             'laravel_generator.namespace.api_controller',
             'App\Http\Controllers\API'
         ).$prefix;
+
+        $this->nsApiTransformer = config(
+            'laravel_generator.namespace.api_transformer',
+            'App\Http\Transformer'
+        ).$prefix;
+
+        $this->nsApiPresenter = config(
+            'laravel_generator.namespace.api_presenter',
+            'App\Http\Presenter'
+        ).$prefix;
+
         $this->nsApiRequest = config('laravel_generator.namespace.api_request', 'App\Http\Requests\API').$prefix;
 
         $this->nsRequest = config('laravel_generator.namespace.request', 'App\Http\Requests').$prefix;
@@ -165,6 +180,16 @@ class GeneratorConfig
         $this->pathApiController = config(
             'laravel_generator.path.api_controller',
             app_path('Http/Controllers/API/')
+        ).$prefix;
+
+        $this->pathApiTransformer = config(
+            'laravel_generator.path.api_transformer',
+            app_path('Http/Transformers/')
+        ).$prefix;
+
+        $this->pathApiPresenter = config(
+            'laravel_generator.path.api_presenter',
+            app_path('Http/Presenters/')
         ).$prefix;
 
         $this->pathApiRequest = config(
@@ -207,6 +232,8 @@ class GeneratorConfig
         $commandData->addDynamicVariable('$NAMESPACE_MODEL_EXTEND$', $this->nsModelExtend);
 
         $commandData->addDynamicVariable('$NAMESPACE_API_CONTROLLER$', $this->nsApiController);
+        $commandData->addDynamicVariable('$NAMESPACE_API_TRANSFORMER$', $this->nsApiTransformer);
+        $commandData->addDynamicVariable('$NAMESPACE_API_PRESENTER$', $this->nsApiPresenter);
         $commandData->addDynamicVariable('$NAMESPACE_API_REQUEST$', $this->nsApiRequest);
 
         $commandData->addDynamicVariable('$NAMESPACE_BASE_CONTROLLER$', $this->nsBaseController);
@@ -272,7 +299,7 @@ class GeneratorConfig
         );
 
         $commandData->addDynamicVariable(
-            '$API_CONTENT_TYPE$',
+      '$API_CONTENT_TYPE$',
             config('laravel_generator.api_version', 'application/json')
         );
 

@@ -1,0 +1,33 @@
+<?php
+
+namespace $NAMESPACE_API_PRESENTER$;
+
+use $NAMESPACE_API_TRANSFORMER$\$MODEL_NAME$Transformer;
+
+/**
+ * Class $MODEL_NAME$Presenter.
+ *
+ * @package namespace $NAMESPACE_API_PRESENTER$\Presenters;
+ */
+class $MODEL_NAME$Presenter extends BasePresenter
+{
+  /**
+   * @var string
+   */
+  protected $resourceKeyItem = '$MODEL_NAME_PLURAL_CAMEL$';
+
+  /**
+   * @var string
+   */
+  protected $resourceKeyCollection = '$MODEL_NAME_PLURAL_CAMEL$';
+
+  /**
+   * Transformer
+   *
+   * @return \$NAMESPACE_API_TRANSFORMER$\$MODEL_NAME$Transformer
+   */
+  public function getTransformer()
+  {
+    return new $MODEL_NAME$Transformer();
+  }
+}

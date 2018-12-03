@@ -4,6 +4,7 @@ namespace $NAMESPACE_API_REQUEST$;
 
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use InfyOm\Generator\Request\APIRequest;
+
 /**
  * Class Update$MODEL_NAME$APIRequest
  *
@@ -11,9 +12,16 @@ use InfyOm\Generator\Request\APIRequest;
  *   request="Update$MODEL_NAME$",
  *   description="Update the specified $MODEL_NAME$ in storage",
  *   required=true,
- *   @OA\JsonContent(ref="#/components/schemas/$MODEL_NAME$")
+ *   @OA\MediaType(
+ *     mediaType="$API_CONTENT_TYPE$",
+ *     @OA\Schema(
+ *       @OA\Property(property="placeholder",ref="#/components/schemas/$MODEL_NAME$/properties/attributes/properties/placeholder")
+ *     )
+ *   )
  * )
  */
+
+// TODO: Update above annotations
 
 class Update$MODEL_NAME$APIRequest extends APIRequest
 {
@@ -24,7 +32,7 @@ class Update$MODEL_NAME$APIRequest extends APIRequest
      */
     public function authorize()
     {
-        return true;
+        return auth()->check();
     }
 
     /**
@@ -34,6 +42,6 @@ class Update$MODEL_NAME$APIRequest extends APIRequest
      */
     public function rules()
     {
-        return $MODEL_NAME$::$rules;
+        return $MODEL_NAME$::$optionalRules;
     }
 }

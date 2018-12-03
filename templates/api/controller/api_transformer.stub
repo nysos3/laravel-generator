@@ -1,0 +1,31 @@
+<?php
+
+namespace $NAMESPACE_API_TRANSFORMER$;
+
+use $NAMESPACE_MODEL$\$MODEL_NAME$;
+use League\Fractal\TransformerAbstract;
+
+/**
+ * Class $MODEL_NAME$Transformer.
+ *
+ * @package namespace $NAMESPACE_API_TRANSFORMER$;
+ */
+class $MODEL_NAME$Transformer extends TransformerAbstract
+{
+  /**
+   * Transform the $MODEL_NAME$ entity.
+   *
+   * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
+   *
+   * @return array
+   */
+  public function transform($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
+  {
+    return [
+      'id' => $$MODEL_NAME_CAMEL$->id,
+      // TODO: Fill this array
+      'created_at' => $$MODEL_NAME_CAMEL$->created_at,
+      'updated_at' => $$MODEL_NAME_CAMEL$->updated_at
+    ];
+  }
+}
