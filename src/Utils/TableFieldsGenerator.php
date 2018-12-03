@@ -64,7 +64,7 @@ class TableFieldsGenerator
 
         $this->primaryKey = static::getPrimaryKeyOfTable($tableName);
         $this->timestamps = static::getTimestampFieldNames();
-        $this->defaultSearchable = config('infyom.laravel_generator.options.tables_searchable_default', false);
+        $this->defaultSearchable = config('laravel_generator.options.tables_searchable_default', false);
     }
 
     /**
@@ -155,13 +155,13 @@ class TableFieldsGenerator
      */
     public static function getTimestampFieldNames()
     {
-        if (!config('infyom.laravel_generator.timestamps.enabled', true)) {
+        if (!config('laravel_generator.timestamps.enabled', true)) {
             return [];
         }
 
-        $createdAtName = config('infyom.laravel_generator.timestamps.created_at', 'created_at');
-        $updatedAtName = config('infyom.laravel_generator.timestamps.updated_at', 'updated_at');
-        $deletedAtName = config('infyom.laravel_generator.timestamps.deleted_at', 'deleted_at');
+        $createdAtName = config('laravel_generator.timestamps.created_at', 'created_at');
+        $updatedAtName = config('laravel_generator.timestamps.updated_at', 'updated_at');
+        $deletedAtName = config('laravel_generator.timestamps.deleted_at', 'deleted_at');
 
         return [$createdAtName, $updatedAtName, $deletedAtName];
     }

@@ -25,7 +25,7 @@ class ViewGenerator extends BaseGenerator
     {
         $this->commandData = $commandData;
         $this->path = $commandData->config->pathViews;
-        $this->templateType = config('infyom.laravel_generator.templates', 'core-templates');
+        $this->templateType = config('laravel_generator.templates', 'core-templates');
     }
 
     public function generate()

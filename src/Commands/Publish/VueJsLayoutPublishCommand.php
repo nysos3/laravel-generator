@@ -47,13 +47,13 @@ class VueJsLayoutPublishCommand extends PublishBaseCommand
 
     private function copyView()
     {
-        $viewsPath = config('infyom.laravel_generator.path.views', base_path('resources/views/'));
-        $resourcesPath = config('infyom.laravel_generator.path.resourcesPath', base_path('resources/'));
+        $viewsPath = config('laravel_generator.path.views', base_path('resources/views/'));
+        $resourcesPath = config('laravel_generator.path.resourcesPath', base_path('resources/'));
         $vendorPath = $resourcesPath.'assets/vendor/';
-        $assetsJsPath = config('infyom.laravel_generator.path.assetsJsPath', base_path('resources/assets/js/'));
-        $assetsCssPath = config('infyom.laravel_generator.path.assetsCssPath', base_path('resources/assets/css/'));
-        $templateType = config('infyom.laravel_generator.templates', 'core-templates');
-        $requestPath = config('infyom.laravel_generator.path.api_request', base_path('app/Http/Requests/'));
+        $assetsJsPath = config('laravel_generator.path.assetsJsPath', base_path('resources/assets/js/'));
+        $assetsCssPath = config('laravel_generator.path.assetsCssPath', base_path('resources/assets/css/'));
+        $templateType = config('laravel_generator.templates', 'core-templates');
+        $requestPath = config('laravel_generator.path.api_request', base_path('app/Http/Requests/'));
 
         $this->createDirectories($viewsPath);
         $this->createVueJsDirectories($viewsPath, $resourcesPath);
@@ -211,7 +211,7 @@ class VueJsLayoutPublishCommand extends PublishBaseCommand
 
     private function updateRoutes()
     {
-        $path = config('infyom.laravel_generator.path.routes', app_path('Http/routes.php'));
+        $path = config('laravel_generator.path.routes', app_path('Http/routes.php'));
         $routeContents = file_get_contents($path);
 
         $routesTemplate = get_template('routes.auth', 'laravel-generator');
@@ -233,7 +233,7 @@ class VueJsLayoutPublishCommand extends PublishBaseCommand
 
         $templateData = $this->fillTemplate($templateData);
 
-        $controllerPath = config('infyom.laravel_generator.path.controller', app_path('Http/Controllers/'));
+        $controllerPath = config('laravel_generator.path.controller', app_path('Http/Controllers/'));
 
         $fileName = 'HomeController.php';
 
@@ -261,12 +261,12 @@ class VueJsLayoutPublishCommand extends PublishBaseCommand
     {
         $templateData = str_replace(
             '$NAMESPACE_CONTROLLER$',
-            config('infyom.laravel_generator.namespace.controller'), $templateData
+            config('laravel_generator.namespace.controller'), $templateData
         );
 
         $templateData = str_replace(
             '$NAMESPACE_REQUEST$',
-            config('infyom.laravel_generator.namespace.request'), $templateData
+            config('laravel_generator.namespace.request'), $templateData
         );
 
         return $templateData;

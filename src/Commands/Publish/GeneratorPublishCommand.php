@@ -40,8 +40,8 @@ class GeneratorPublishCommand extends PublishBaseCommand
      */
     private function fillTemplate($templateData)
     {
-        $apiVersion = config('infyom.laravel_generator.api_version', 'v1');
-        $apiPrefix = config('infyom.laravel_generator.api_prefix', 'api');
+        $apiVersion = config('laravel_generator.api_version', 'v1');
+        $apiPrefix = config('laravel_generator.api_prefix', 'api');
 
         $templateData = str_replace('$API_VERSION$', $apiVersion, $templateData);
         $templateData = str_replace('$API_PREFIX$', $apiPrefix, $templateData);
@@ -56,7 +56,7 @@ class GeneratorPublishCommand extends PublishBaseCommand
     {
         $traitPath = __DIR__.'/../../../templates/test/api_test_trait.stub';
 
-        $testsPath = config('infyom.laravel_generator.path.api_test', base_path('tests/'));
+        $testsPath = config('laravel_generator.path.api_test', base_path('tests/'));
 
         $this->publishFile($traitPath, $testsPath.'ApiTestTrait.php', 'ApiTestTrait.php');
 
