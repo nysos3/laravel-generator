@@ -66,7 +66,7 @@ class VueModelGenerator extends BaseGenerator
             $camel = Str::camel($field->name);
             $options = [];
             if(in_array($field->name,$this->excluded_fields)) {
-              $options['persist'] = 'false';
+              $options['persist'] = false;
             }
             if(empty($options)) {
               $fields[] = "{$camel}: attr()";
