@@ -3,6 +3,9 @@
 namespace InfyOm\Generator\Utils;
 
 use DB;
+use Doctrine\DBAL\Schema\AbstractSchemaManager;
+use Doctrine\DBAL\Schema\Column;
+use Illuminate\Support\Str;
 use InfyOm\Generator\Common\GeneratorField;
 use InfyOm\Generator\Common\GeneratorFieldRelation;
 
@@ -38,10 +41,10 @@ class TableFieldsGenerator
     /** @var array */
     public $timestamps;
 
-    /** @var \Doctrine\DBAL\Schema\AbstractSchemaManager */
+    /** @var AbstractSchemaManager */
     private $schemaManager;
 
-    /** @var \Doctrine\DBAL\Schema\Column[] */
+    /** @var Column[] */
     private $columns;
 
     /** @var GeneratorField[] */
@@ -50,17 +53,36 @@ class TableFieldsGenerator
     /** @var GeneratorFieldRelation[] */
     public $relations;
 
-    public function __construct($tableName)
+    /** @var array */
+    public $ignoredFields;
+
+    public function __construct($tableName, $ignoredFields)
     {
         $this->tableName = $tableName;
+        $this->ignoredFields = $ignoredFields;
 
         $this->schemaManager = DB::getDoctrineSchemaManager();
         $platform = $this->schemaManager->getDatabasePlatform();
-        $platform->registerDoctrineTypeMapping('enum', 'string');
-        $platform->registerDoctrineTypeMapping('json', 'text');
-        $platform->registerDoctrineTypeMapping('bit', 'boolean');
+        $defaultMappings = [
+            'enum' => 'string',
+            'json' => 'text',
+            'bit'  => 'boolean',
+        ];
 
-        $this->columns = $this->schemaManager->listTableColumns($tableName);
+        $mappings = config('infyom.laravel_generator.from_table.doctrine_mappings', []);
+        $mappings = array_merge($mappings, $defaultMappings);
+        foreach ($mappings as $dbType => $doctrineType) {
+            $platform->registerDoctrineTypeMapping($dbType, $doctrineType);
+        }
+
+        $columns = $this->schemaManager->listTableColumns($tableName);
+
+        $this->columns = [];
+        foreach ($columns as $column) {
+            if (!in_array($column->getName(), $ignoredFields)) {
+                $this->columns[] = $column;
+            }
+        }
 
         $this->primaryKey = static::getPrimaryKeyOfTable($tableName);
         $this->timestamps = static::getTimestampFieldNames();
@@ -86,7 +108,7 @@ class TableFieldsGenerator
                     $field = $this->generateIntFieldInput($column, 'bigInteger');
                     break;
                 case 'boolean':
-                    $name = title_case(str_replace('_', ' ', $column->getName()));
+                    $name = Str::title(str_replace('_', ' ', $column->getName()));
                     $field = $this->generateField($column, 'boolean', 'checkbox,1');
                     break;
                 case 'datetime':
@@ -128,6 +150,8 @@ class TableFieldsGenerator
                 $field->inForm = false;
                 $field->inIndex = false;
             }
+            $field->isNotNull = (bool) $column->getNotNull();
+            $field->description = $column->getComment(); // get comments from table
 
             $this->fields[] = $field;
         }
@@ -169,8 +193,8 @@ class TableFieldsGenerator
     /**
      * Generates integer text field for database.
      *
-     * @param string                       $dbType
-     * @param \Doctrine\DBAL\Schema\Column $column
+     * @param string $dbType
+     * @param Column $column
      *
      * @return GeneratorField
      */
@@ -217,7 +241,7 @@ class TableFieldsGenerator
     /**
      * Generates field.
      *
-     * @param \Doctrine\DBAL\Schema\Column $column
+     * @param Column $column
      * @param $dbType
      * @param $htmlType
      *
@@ -236,8 +260,8 @@ class TableFieldsGenerator
     /**
      * Generates number field.
      *
-     * @param \Doctrine\DBAL\Schema\Column $column
-     * @param string                       $dbType
+     * @param Column $column
+     * @param string $dbType
      *
      * @return GeneratorField
      */
@@ -496,7 +520,9 @@ class TableFieldsGenerator
 
             if ($foreignField == $tables[$foreignTable]->primaryKey) {
                 $modelName = model_name_from_table_name($foreignTable);
-                $manyToOneRelations[] = GeneratorFieldRelation::parseRelation('mt1,'.$modelName);
+                $manyToOneRelations[] = GeneratorFieldRelation::parseRelation(
+                    'mt1,'.$modelName.','.$foreignKey->localField
+                );
             }
         }
 

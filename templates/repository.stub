@@ -3,6 +3,7 @@
 namespace $NAMESPACE_REPOSITORY$;
 
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
+use $NAMESPACE_APP$\Repositories\BaseRepository;
 
 $DOCS$
 class $MODEL_NAME$Repository extends BaseRepository
@@ -13,6 +14,16 @@ class $MODEL_NAME$Repository extends BaseRepository
     protected $fieldSearchable = [
         $FIELDS$
     ];
+
+    /**
+     * Return searchable fields
+     *
+     * @return array
+     */
+    public function getFieldsSearchable()
+    {
+        return $this->fieldSearchable;
+    }
 
     /**
      * Configure the Model

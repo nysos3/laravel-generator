@@ -1,9 +1,12 @@
 <?php
 
-namespace Tests;
+namespace $NAMESPACE_API_TESTS$;
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
+use $NAMESPACE_TESTS$\TestCase;
+use $NAMESPACE_TEST_TRAITS$\Make$MODEL_NAME$Trait;
+use $NAMESPACE_TESTS$\ApiTestTrait;
 
 class $MODEL_NAME$ApiTest extends TestCase
 {
@@ -12,10 +15,11 @@ class $MODEL_NAME$ApiTest extends TestCase
   /**
    * @test
    */
-  public function testCreate$MODEL_NAME$()
+  public function test_create_$MODEL_NAME_SNAKE$()
   {
     $$MODEL_NAME_CAMEL$ = $this->fake$MODEL_NAME$Data();
-    $this->actingAs($this->authData())->json('POST', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$', $$MODEL_NAME_CAMEL$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
+    $this->response = $this->actingAs($this->authData())->json('POST', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$', $$MODEL_NAME_CAMEL$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
+    $this->json('POST', '/api/v1/$MODEL_NAME_PLURAL_CAMEL$', $$MODEL_NAME_CAMEL$);
 
     $this->assertApiResponse($$MODEL_NAME_CAMEL$);
   }
@@ -23,10 +27,10 @@ class $MODEL_NAME$ApiTest extends TestCase
   /**
    * @test
    */
-  public function testRead$MODEL_NAME$()
+  public function test_read_$MODEL_NAME_SNAKE$()
   {
     $$MODEL_NAME_CAMEL$ = $this->make$MODEL_NAME$();
-    $this->actingAs($this->authData())->json('GET', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
+    $this->response = $this->actingAs($this->authData())->json('GET', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
 
     $this->assertApiResponse($$MODEL_NAME_CAMEL$->toArray());
   }
@@ -34,12 +38,12 @@ class $MODEL_NAME$ApiTest extends TestCase
   /**
    * @test
    */
-  public function testUpdate$MODEL_NAME$()
+  public function test_update_$MODEL_NAME_SNAKE$()
   {
     $$MODEL_NAME_CAMEL$ = $this->make$MODEL_NAME$();
     $edited$MODEL_NAME$ = $this->fake$MODEL_NAME$Data();
 
-    $this->actingAs($this->authData())->json('PATCH', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, $edited$MODEL_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
+    $this->response = $this->actingAs($this->authData())->json('PATCH', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, $edited$MODEL_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
 
     $this->assertApiResponse($edited$MODEL_NAME$);
   }
@@ -47,14 +51,14 @@ class $MODEL_NAME$ApiTest extends TestCase
   /**
    * @test
    */
-  public function testDelete$MODEL_NAME$()
+  public function test_delete_$MODEL_NAME_SNAKE$()
   {
     $$MODEL_NAME_CAMEL$ = $this->make$MODEL_NAME$();
-    $this->actingAs($this->authData())->json('DELETE', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
+    $this->response = $this->actingAs($this->authData())->json('DELETE', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
 
     $this->assertApiSuccess();
-    $this->actingAs($this->authData())->json('GET', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
+    $this->response = $this->actingAs($this->authData())->json('GET', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_CAMEL$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
 
-    $this->assertResponseStatus(404);
+    $this->response->assertStatus(404);
   }
 }

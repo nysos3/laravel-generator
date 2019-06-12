@@ -2,6 +2,7 @@
 
 namespace InfyOm\Generator\Generators;
 
+use Illuminate\Support\Str;
 use InfyOm\Generator\Common\CommandData;
 use InfyOm\Generator\Common\GeneratorFieldRelation;
 use InfyOm\Generator\Utils\FileUtil;
@@ -30,7 +31,7 @@ class ModelGenerator extends BaseGenerator
     /**
      * ModelGenerator constructor.
      *
-     * @param \InfyOm\Generator\Common\CommandData $commandData
+     * @param CommandData $commandData
      */
     public function __construct(CommandData $commandData)
     {
@@ -154,17 +155,26 @@ class ModelGenerator extends BaseGenerator
         switch ($db_type) {
             case 'datetime':
                 return 'string|\Carbon\Carbon';
-            case 'text':
-                return 'string';
             case '1t1':
+                return '\\'.$this->commandData->config->nsModel.'\\'.$relation->inputs[0].' '.Str::camel($relation->inputs[0]);
             case 'mt1':
-                return '\\'.$this->commandData->config->nsModel.'\\'.$relation->inputs[0].' '.camel_case($relation->inputs[0]);
+                if (isset($relation->inputs[1])) {
+                    $relationName = str_replace('_id', '', strtolower($relation->inputs[1]));
+                } else {
+                    $relationName = $relation->inputs[0];
+                }
+
+                return '\\'.$this->commandData->config->nsModel.'\\'.$relation->inputs[0].' '.Str::camel($relationName);
             case '1tm':
-                return '\Illuminate\Database\Eloquent\Collection'.' '.$relation->inputs[0];
             case 'mtm':
             case 'hmt':
-                return '\Illuminate\Database\Eloquent\Collection'.' '.camel_case($relation->inputs[1]);
+                return '\Illuminate\Database\Eloquent\Collection'.' '.Str::camel(Str::plural($relation->inputs[0]));
             default:
+                $fieldData = SwaggerGenerator::getFieldType($db_type);
+                if (!empty($fieldData['fieldType'])) {
+                    return $fieldData['fieldType'];
+                }
+
                 return $db_type;
         }
     }
@@ -197,7 +207,7 @@ class ModelGenerator extends BaseGenerator
 
         foreach ($this->commandData->fields as $field) {
             if (!empty($field->validations)) {
-                if (str_contains($field->validations, 'required')) {
+                if (Str::contains($field->validations, 'required')) {
                     $requiredFields[] = $field->name;
                 }
             }
@@ -230,9 +240,15 @@ class ModelGenerator extends BaseGenerator
 
     private function generateRules()
     {
+        $dont_require_fields = config('infyom.laravel_generator.options.hidden_fields', [])
+                + config('infyom.laravel_generator.options.excluded_fields', []);
+
         $rules = [];
 
         foreach ($this->commandData->fields as $field) {
+            if ($field->isNotNull && empty($field->validations) && !in_array($field->name, $dont_require_fields)) {
+                $field->validations = 'required';
+            }
             if (!empty($field->validations)) {
                 $rule = "'".$field->name."' => '".$field->validations."'";
                 $rules[] = $rule;
@@ -255,21 +271,26 @@ class ModelGenerator extends BaseGenerator
 
             $rule = "'".$field->name."' => ";
 
-            switch ($field->fieldType) {
+            switch (strtolower($field->fieldType)) {
                 case 'integer':
+                case 'increments':
+                case 'smallinteger':
+                case 'long':
+                case 'biginteger':
                     $rule .= "'integer'";
                     break;
                 case 'double':
                     $rule .= "'double'";
                     break;
                 case 'float':
+                case 'decimal':
                     $rule .= "'float'";
                     break;
                 case 'boolean':
                     $rule .= "'boolean'";
                     break;
-                case 'dateTime':
-                case 'dateTimeTz':
+                case 'datetime':
+                case 'datetimetz':
                     $rule .= "'datetime'";
                     break;
                 case 'date':
@@ -300,7 +321,6 @@ class ModelGenerator extends BaseGenerator
 
         foreach ($this->commandData->relations as $relation) {
             $relationText = $relation->getRelationFunctionText();
-
             if (!empty($relationText)) {
                 $relations[] = $relationText;
             }

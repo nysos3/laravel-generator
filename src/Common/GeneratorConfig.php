@@ -23,6 +23,11 @@ class GeneratorConfig
     public $nsController;
     public $nsBaseController;
 
+    public $nsApiTests;
+    public $nsRepositoryTests;
+    public $nsTestTraits;
+    public $nsTests;
+
     /* Path variables */
     public $pathRepository;
     public $pathModel;
@@ -57,13 +62,13 @@ class GeneratorConfig
     public $mHuman;
     public $mHumanPlural;
 
-    public $forceMigrate;
-
     /* Generator Options */
     public $options;
 
     /* Prefixes */
     public $prefixes;
+
+    private $commandData;
 
     /* Command Options */
     public static $availableOptions = [
@@ -71,6 +76,7 @@ class GeneratorConfig
         'jsonFromGUI',
         'tableName',
         'fromTable',
+        'ignoreFields',
         'save',
         'primary',
         'prefix',
@@ -79,6 +85,9 @@ class GeneratorConfig
         'datatables',
         'views',
         'relations',
+        'plural',
+        'softDelete',
+        'forceMigrate',
     ];
 
     public $tableName;
@@ -106,6 +115,7 @@ class GeneratorConfig
         $this->preparePrimaryName();
         $this->loadNamespaces($commandData);
         $commandData = $this->loadDynamicVariables($commandData);
+        $this->commandData = &$commandData;
     }
 
     public function loadNamespaces(CommandData &$commandData)
@@ -150,6 +160,11 @@ class GeneratorConfig
         $this->nsRequestBase = config('laravel_generator.namespace.request', 'App\Http\Requests');
         $this->nsBaseController = config('laravel_generator.namespace.controller', 'App\Http\Controllers');
         $this->nsController = config('laravel_generator.namespace.controller', 'App\Http\Controllers').$prefix;
+
+        $this->nsTestTraits = config('laravel_generator.namespace.test_trait', 'Tests\Traits');
+        $this->nsApiTests = config('laravel_generator.namespace.api_test', 'Tests\APIs');
+        $this->nsRepositoryTests = config('laravel_generator.namespace.repository_test', 'Tests\Repositories');
+        $this->nsTests = config('laravel_generator.namespace.tests', 'Tests');
     }
 
     public function loadPaths()
@@ -203,11 +218,11 @@ class GeneratorConfig
             app_path('Http/Requests/API/')
         ).$prefix;
 
-        $this->pathApiRoutes = config('laravel_generator.path.api_routes', app_path('Http/api_routes.php'));
+        $this->pathApiRoutes = config('laravel_generator.path.api_routes', base_path('routes/api.php'));
 
-        $this->pathApiTests = config('laravel_generator.path.api_test', base_path('tests/'));
+        $this->pathApiTests = config('laravel_generator.path.api_test', base_path('tests/APIs/'));
 
-        $this->pathApiTestTraits = config('laravel_generator.path.test_trait', base_path('tests/traits/'));
+        $this->pathApiTestTraits = config('laravel_generator.path.test_trait', base_path('tests/Traits/'));
 
         $this->pathController = config(
             'laravel_generator.path.controller',
@@ -216,7 +231,7 @@ class GeneratorConfig
 
         $this->pathRequest = config('laravel_generator.path.request', app_path('Http/Requests/')).$prefix;
 
-        $this->pathRoutes = config('laravel_generator.path.routes', app_path('Http/routes.php'));
+        $this->pathRoutes = config('laravel_generator.path.routes', base_path('routes/web.php'));
 
         $this->pathViews = config(
             'laravel_generator.path.views',
@@ -247,7 +262,13 @@ class GeneratorConfig
         $commandData->addDynamicVariable('$NAMESPACE_REQUEST$', $this->nsRequest);
         $commandData->addDynamicVariable('$NAMESPACE_REQUEST_BASE$', $this->nsRequestBase);
 
+        $commandData->addDynamicVariable('$NAMESPACE_API_TESTS$', $this->nsApiTests);
+        $commandData->addDynamicVariable('$NAMESPACE_TEST_TRAITS$', $this->nsTestTraits);
+        $commandData->addDynamicVariable('$NAMESPACE_REPOSITORIES_TESTS$', $this->nsRepositoryTests);
+        $commandData->addDynamicVariable('$NAMESPACE_TESTS$', $this->nsTests);
+
         $commandData->addDynamicVariable('$TABLE_NAME$', $this->tableName);
+        $commandData->addDynamicVariable('$TABLE_NAME_TITLE$', Str::studly($this->tableName));
         $commandData->addDynamicVariable('$PRIMARY_KEY_NAME$', $this->primaryName);
 
         $commandData->addDynamicVariable('$MODEL_NAME$', $this->mName);
@@ -266,6 +287,7 @@ class GeneratorConfig
         if (!empty($this->prefixes['route'])) {
             $commandData->addDynamicVariable('$ROUTE_NAMED_PREFIX$', $this->prefixes['route'].'.');
             $commandData->addDynamicVariable('$ROUTE_PREFIX$', str_replace('.', '/', $this->prefixes['route']).'/');
+            $commandData->addDynamicVariable('$RAW_ROUTE_PREFIX$', $this->prefixes['route']);
         } else {
             $commandData->addDynamicVariable('$ROUTE_PREFIX$', '');
             $commandData->addDynamicVariable('$ROUTE_NAMED_PREFIX$', '');
@@ -332,7 +354,11 @@ class GeneratorConfig
 
     public function prepareModelNames()
     {
-        $this->mPlural = Str::plural($this->mName);
+        if ($this->getOption('plural')) {
+            $this->mPlural = $this->getOption('plural');
+        } else {
+            $this->mPlural = Str::plural($this->mName);
+        }
         $this->mCamel = Str::camel($this->mName);
         $this->mCamelPlural = Str::camel($this->mPlural);
         $this->mSnake = Str::snake($this->mName);
@@ -341,8 +367,8 @@ class GeneratorConfig
         $this->mDashedPlural = str_replace('_', '-', Str::snake($this->mSnakePlural));
         $this->mSlash = str_replace('_', '/', Str::snake($this->mSnake));
         $this->mSlashPlural = str_replace('_', '/', Str::snake($this->mSnakePlural));
-        $this->mHuman = title_case(str_replace('_', ' ', Str::snake($this->mSnake)));
-        $this->mHumanPlural = title_case(str_replace('_', ' ', Str::snake($this->mSnakePlural)));
+        $this->mHuman = Str::title(str_replace('_', ' ', Str::snake($this->mSnake)));
+        $this->mHumanPlural = Str::title(str_replace('_', ' ', Str::snake($this->mSnakePlural)));
     }
 
     public function prepareOptions(CommandData &$commandData)
@@ -462,6 +488,14 @@ class GeneratorConfig
             if (isset($jsonData['options'][$option])) {
                 $this->setOption($option, $jsonData['options'][$option]);
             }
+        }
+
+        // prepare prefixes than reload namespaces, paths and dynamic variables
+        if (!empty($this->getOption('prefix'))) {
+            $this->preparePrefixes();
+            $this->loadPaths();
+            $this->loadNamespaces($this->commandData);
+            $this->loadDynamicVariables($this->commandData);
         }
 
         $addOns = ['swagger', 'tests', 'datatables'];

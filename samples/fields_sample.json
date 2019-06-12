@@ -80,7 +80,7 @@
     {
         "name": "is_private",
         "dbType": "boolean",
-        "htmlType": "checkbox:1"
+        "htmlType": "checkbox,1"
     },
     {
         "name": "writer_id",
@@ -91,6 +91,10 @@
     {
         "type": "relation",
         "relation": "1tm,Comment"
+    },
+    {
+      "type": "relation",
+      "relation": "1tm,User:customRelationName,user_id,id"
     },
     {
         "name": "users",
