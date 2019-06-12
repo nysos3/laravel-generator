@@ -35,11 +35,11 @@ return [
 
         'api_presenter'     => app_path('Http/Presenters/'),
 
-        'test_trait'        => base_path('tests/traits/'),
+        'test_trait'        => base_path('tests/Traits/'),
 
-        'repository_test'   => base_path('tests/'),
+        'repository_test'   => base_path('tests/Repositories/'),
 
-        'api_test'          => base_path('tests/'),
+        'api_test'          => base_path('tests/APIs/'),
 
         'views'             => base_path('resources/views/'),
 
@@ -76,6 +76,14 @@ return [
         'request'           => 'App\Http\Requests',
 
         'api_request'       => 'App\Http\Requests\API',
+
+        'test_trait'        => 'Tests\Traits',
+
+        'repository_test'   => 'Tests\Repositories',
+
+        'api_test'          => 'Tests\APIs',
+
+        'tests'             => 'Tests',
     ],
 
     /*
@@ -121,6 +129,8 @@ return [
         'softDelete' => true,
 
         'tables_searchable_default' => false,
+
+        'excluded_fields' => ['id'], // Array of columns that doesn't required while creating module
     ],
 
     /*
@@ -189,5 +199,16 @@ return [
     |
     */
     'ignore_model_prefix' => false,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Specify custom doctrine mappings as per your need
+    |--------------------------------------------------------------------------
+    |
+    */
+    'from_table' => [
+
+        'doctrine_mappings' => [],
+    ],
 
 ];

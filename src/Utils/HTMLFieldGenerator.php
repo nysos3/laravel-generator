@@ -17,8 +17,6 @@ class HTMLFieldGenerator
             case 'file':
             case 'email':
             case 'password':
-                $fieldTemplate = get_template('scaffold.fields.'.$field->htmlType, $templateType);
-                break;
             case 'number':
                 $fieldTemplate = get_template('scaffold.fields.'.$field->htmlType, $templateType);
                 break;
@@ -55,6 +53,9 @@ class HTMLFieldGenerator
                     $radioButtons[] = $radioButtonTemplate;
                 }
                 $fieldTemplate = str_replace('$RADIO_BUTTONS$', implode("\n", $radioButtons), $fieldTemplate);
+                break;
+            case 'toggle-switch':
+                $fieldTemplate = get_template('scaffold.fields.toggle-switch', $templateType);
                 break;
         }
 
