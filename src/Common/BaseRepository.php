@@ -50,9 +50,19 @@ abstract class BaseRepository extends \Prettus\Repository\Eloquent\BaseRepositor
 
     public function updateRelations($model, $attributes)
     {
+        if (!isset($model)) {
+            return $model;
+        }
+        $f = new \ReflectionClass($model);
+        $methods = [];
+        foreach ($f->getMethods() as $m) {
+            if ($m->class == $f->name && $m->getNumberOfParameters() === 0) {
+                $methods[] = $m->name;
+            }
+        }
         foreach ($attributes as $key => $val) {
-            if (isset($model) &&
-                method_exists($model, $key) &&
+            if (
+                array_key_exists($key, $methods) &&
                 is_a(@$model->$key(), 'Illuminate\Database\Eloquent\Relations\Relation')
             ) {
                 $methodClass = get_class($model->$key($key));
