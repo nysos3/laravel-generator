@@ -82,23 +82,23 @@ class GeneratorFieldRelation
         $modelName = $this->inputs[0];
         switch ($this->type) {
             case '1t1':
-                $functionName = camel_case($modelName);
+                $functionName = Str::camel($modelName);
                 $relation = 'hasOne';
                 break;
             case '1tm':
-                $functionName = camel_case(Str::plural($modelName));
+                $functionName = Str::camel(Str::plural($modelName));
                 $relation = 'hasMany';
                 break;
             case 'mt1':
-                $functionName = camel_case($modelName);
+                $functionName = Str::camel($modelName);
                 $relation = 'belongsTo';
                 break;
             case 'mtm':
-                $functionName = camel_case(Str::plural($modelName));
+                $functionName = Str::camel(Str::plural($modelName));
                 $relation = 'belongsTo';
                 break;
             case 'hmt':
-                $functionName = camel_case(Str::plural($modelName));
+                $functionName = Str::camel(Str::plural($modelName));
                 $relation = 'hasMany';
                 break;
             default:
@@ -108,7 +108,7 @@ class GeneratorFieldRelation
         }
 
         if (!empty($functionName) and !empty($relation)) {
-            $modelPlural = camel_case(Str::plural($modelName));
+            $modelPlural = Str::camel(Str::plural($modelName));
             return "{$functionName}: {$relation}('{$modelPlural}')";
         }
 

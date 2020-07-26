@@ -8,7 +8,6 @@ use InfyOm\Generator\Common\GeneratorFieldRelation;
 use InfyOm\Generator\Utils\FileUtil;
 use InfyOm\Generator\Utils\TableFieldsGenerator;
 
-
 class VueModelGenerator extends BaseGenerator
 {
     /**
@@ -65,20 +64,21 @@ class VueModelGenerator extends BaseGenerator
         foreach ($this->commandData->fields as $field) {
             $camel = Str::camel($field->name);
             $options = [];
-            if(in_array($field->name,$this->excluded_fields)) {
-              $options['persist'] = false;
+            if (in_array($field->name, $this->excluded_fields)) {
+                $options['persist'] = false;
             }
-            if(empty($options)) {
-              $fields[] = "{$camel}: attr()";
+            if (empty($options)) {
+                $fields[] = "{$camel}: attr()";
             } else {
-              $options = json_encode($options);
-              $fields[] = "{$camel}: attr({$options})";
+                $options = json_encode($options);
+                $fields[] = "{$camel}: attr({$options})";
             }
         }
 
         $relations = $this->generateRelations();
-        foreach($relations as $relation)
-          $fields[] = $relation;
+        foreach ($relations as $relation) {
+            $fields[] = $relation;
+        }
 
         $templateData = str_replace('$FIELDS$', implode(','.PHP_EOL.'      ', $fields), $templateData);
 
@@ -102,12 +102,12 @@ class VueModelGenerator extends BaseGenerator
                 return 'string';
             case '1t1':
             case 'mt1':
-                return '\\'.$this->commandData->config->nsModel.'\\'.$relation->inputs[0].' '.camel_case($relation->inputs[0]);
+                return '\\'.$this->commandData->config->nsModel.'\\'.$relation->inputs[0].' '.Str::camel($relation->inputs[0]);
             case '1tm':
                 return '\Illuminate\Database\Eloquent\Collection'.' '.$relation->inputs[0];
             case 'mtm':
             case 'hmt':
-                return '\Illuminate\Database\Eloquent\Collection'.' '.camel_case($relation->inputs[1]);
+                return '\Illuminate\Database\Eloquent\Collection'.' '.Str::camel($relation->inputs[1]);
             default:
                 return $db_type;
         }
