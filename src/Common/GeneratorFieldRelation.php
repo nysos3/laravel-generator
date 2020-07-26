@@ -86,7 +86,7 @@ class GeneratorFieldRelation
                 $relation = 'hasOne';
                 break;
             case '1tm':
-                $functionName = camel_case(str_plural($modelName));
+                $functionName = camel_case(Str::plural($modelName));
                 $relation = 'hasMany';
                 break;
             case 'mt1':
@@ -94,11 +94,11 @@ class GeneratorFieldRelation
                 $relation = 'belongsTo';
                 break;
             case 'mtm':
-                $functionName = camel_case(str_plural($modelName));
+                $functionName = camel_case(Str::plural($modelName));
                 $relation = 'belongsTo';
                 break;
             case 'hmt':
-                $functionName = camel_case(str_plural($modelName));
+                $functionName = camel_case(Str::plural($modelName));
                 $relation = 'hasMany';
                 break;
             default:
@@ -108,7 +108,7 @@ class GeneratorFieldRelation
         }
 
         if (!empty($functionName) and !empty($relation)) {
-            $modelPlural = camel_case(str_plural($modelName));
+            $modelPlural = camel_case(Str::plural($modelName));
             return "{$functionName}: {$relation}('{$modelPlural}')";
         }
 
