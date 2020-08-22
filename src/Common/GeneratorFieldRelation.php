@@ -148,7 +148,7 @@ class GeneratorFieldRelation
                 break;
         }
 
-        if (!empty($functionName) and !empty($relation)) {
+        if (!empty($functionName)) {
             return $functionName;
         }
 
