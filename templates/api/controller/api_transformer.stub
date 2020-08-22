@@ -51,4 +51,6 @@ class $MODEL_NAME$Transformer extends TransformerAbstract
   {
     // return $this->item($$MODEL_NAME_CAMEL$->relation, new RelationTransformer, 'relations');
   }
+
+  $RELATIONS$
 }

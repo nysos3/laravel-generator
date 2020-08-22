@@ -32,11 +32,13 @@ class APITransformerGenerator extends BaseGenerator
 
     $templateData = str_replace('$RELATION_NAMES$',implode(','.infy_nl_tab(1, 2),$this->getRelationNames()),$templateData);
 
+    $templateData = str_replace(
+      '$RELATIONS$',
+      fill_template($this->commandData->dynamicVars, implode(PHP_EOL.infy_nl_tab(1, 1), $this->generateRelations())),
+      $templateData
+    );
+
     FileUtil::createFile($this->path, $this->fileName, $templateData);
-
-    $relations = [];
-
-
 
     $this->commandData->commandComment("\nAPI Transformer created: ");
     $this->commandData->commandInfo($this->fileName);
