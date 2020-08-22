@@ -9,9 +9,7 @@ use $NAMESPACE_REPOSITORY$\$MODEL_NAME$Repository;
 use Illuminate\Http\Request;
 use $NAMESPACE_APP$\Http\Controllers\AppBaseController;
 use App\Criteria\RequestCriteria;
-use App\Criteria\AccountCriteria;
 use Response;
-// TODO: Possibly remove `use App\Criteria\AccountCriteria;`
 $DOC_CONTROLLER$
 class $MODEL_NAME$APIController extends AppBaseController
 {
@@ -27,8 +25,6 @@ class $MODEL_NAME$APIController extends AppBaseController
     public function index(Request $request)
     {
         $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new RequestCriteria($request));
-        $this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new AccountCriteria());
-        // TODO: Possibly remove `$this->$MODEL_NAME_CAMEL$Repository->pushCriteria(new AccountCriteria());`
 
         $$MODEL_NAME_PLURAL_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->paginate();
         $$MODEL_NAME_PLURAL_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->present($$MODEL_NAME_PLURAL_CAMEL$);
@@ -53,11 +49,9 @@ class $MODEL_NAME$APIController extends AppBaseController
         /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
-        if (empty($$MODEL_NAME_CAMEL$) || $$MODEL_NAME_CAMEL$->account_id != auth()->user()->current_account_id) {
+        if (empty($$MODEL_NAME_CAMEL$)) {
             return $this->sendError('$MODEL_NAME_HUMAN$ not found');
         }
-
-        // TODO: Possibly remove ` || $$MODEL_NAME_CAMEL$->account_id != auth()->user()->current_account_id` from above IF
 
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->present($$MODEL_NAME_CAMEL$);
 
@@ -72,11 +66,9 @@ class $MODEL_NAME$APIController extends AppBaseController
         /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
-        if (empty($$MODEL_NAME_CAMEL$) || $$MODEL_NAME_CAMEL$->account_id != auth()->user()->current_account_id) {
+        if (empty($$MODEL_NAME_CAMEL$)) {
             return $this->sendError('$MODEL_NAME_HUMAN$ not found');
         }
-
-        // TODO: Possibly remove ` || $$MODEL_NAME_CAMEL$->account_id != auth()->user()->current_account_id` from above IF
 
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->update($input, $id);
 
@@ -91,11 +83,9 @@ class $MODEL_NAME$APIController extends AppBaseController
         /** @var $MODEL_NAME$ $$MODEL_NAME_CAMEL$ */
         $$MODEL_NAME_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->findWithoutFail($id);
 
-        if (empty($$MODEL_NAME_CAMEL$) || $$MODEL_NAME_CAMEL$->account_id != auth()->user()->current_account_id) {
+        if (empty($$MODEL_NAME_CAMEL$)) {
             return $this->sendError('$MODEL_NAME_HUMAN$ not found');
         }
-
-        // TODO: Possibly remove ` || $$MODEL_NAME_CAMEL$->account_id != auth()->user()->current_account_id` from above IF
 
         $$MODEL_NAME_CAMEL$->delete();
 

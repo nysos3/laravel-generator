@@ -19,7 +19,6 @@ class $MODEL_NAME$ extends BaseModel
 $SOFT_DELETE$
     public $table = '$TABLE_NAME$';
     $TIMESTAMPS$
-    // TODO: Add `const DELETED_AT = 'deleted_at';` if applicable
 $SOFT_DELETE_DATES$
 $PRIMARY$
     public $fillable = [ // TODO: Correct $fillable

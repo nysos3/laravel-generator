@@ -226,12 +226,17 @@ class ModelGenerator extends BaseGenerator
             if (empty($timestamps)) {
                 $replace = infy_nl_tab()."public \$timestamps = false;\n";
             } else {
-                list($created_at, $updated_at) = collect($timestamps)->map(function ($field) {
+                list($created_at, $updated_at, $deleted_at) = collect($timestamps)->map(function ($field) {
                     return !empty($field) ? "'$field'" : 'null';
                 });
 
                 $replace .= infy_nl_tab()."const CREATED_AT = $created_at;";
-                $replace .= infy_nl_tab()."const UPDATED_AT = $updated_at;\n";
+                $replace .= infy_nl_tab()."const UPDATED_AT = $updated_at;";
+                if ($this->commandData->getOption('softDelete')) {
+                  $replace .= infy_nl_tab()."const DELETED_AT = $deleted_at;\n";
+                } else {
+                  $replace .= "\n";
+                }
             }
         }
 

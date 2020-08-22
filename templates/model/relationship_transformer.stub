@@ -1,0 +1,11 @@
+/**
+   * Include $RELATION_MODEL_NAME$
+   *
+   * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_SNAKE$
+   *
+   * @return \League\Fractal\Resource\Item
+   **/
+  public function $FUNCTION_NAME$($MODEL_NAME$ $$MODEL_NAME_SNAKE$)
+  {
+    return $this->item($$MODEL_NAME_SNAKE$->$RELATION_MODEL_NAME_SNAKE$, new $RELATION_MODEL_NAME$Transformer, '$RELATION_MODEL_NAME_SNAKE$');
+  }

@@ -30,11 +30,46 @@ class APITransformerGenerator extends BaseGenerator
 
     $templateData = fill_template($this->commandData->dynamicVars, $templateData);
 
+    $templateData = str_replace('$RELATION_NAMES$',implode(','.infy_nl_tab(1, 2),$this->getRelationNames()),$templateData);
+
     FileUtil::createFile($this->path, $this->fileName, $templateData);
+
+    $relations = [];
+
+
 
     $this->commandData->commandComment("\nAPI Transformer created: ");
     $this->commandData->commandInfo($this->fileName);
   }
+
+  private function generateRelations()
+  {
+    $relations = [];
+
+    foreach ($this->commandData->relations as $relation) {
+      $relationText = $relation->getRelationFunctionText();
+      if (!empty($relationText)) {
+        $relations[] = $relationText;
+      }
+    }
+
+    return $relations;
+  }
+
+  private function getRelationNames()
+  {
+    $relations = [];
+
+    foreach ($this->commandData->relations as $relation) {
+      $relationText = $relation->getRelationName();
+      if (!empty($relationText)) {
+        $relations[] = "'$relationText'";
+      }
+    }
+
+    return $relations;
+  }
+
 
   public function rollback()
   {

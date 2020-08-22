@@ -29,8 +29,8 @@ class GeneratorFieldRelation
 
     public function getRelationFunctionText()
     {
-        $singularRelation = (!empty($this->relationName)) ? $this->relationName : Str::camel($this->inputs[0]);
-        $pluralRelation = (!empty($this->relationName)) ? $this->relationName : Str::camel(Str::plural($this->inputs[0]));
+        $singularRelation = (!empty($this->relationName)) ? $this->relationName : Str::snake($this->inputs[0]);
+        $pluralRelation = (!empty($this->relationName)) ? $this->relationName : Str::snake(Str::plural($this->inputs[0]));
 
         switch ($this->type) {
             case '1t1':
@@ -47,7 +47,7 @@ class GeneratorFieldRelation
                 if (!empty($this->relationName)) {
                     $singularRelation = $this->relationName;
                 } elseif (isset($this->inputs[1])) {
-                    $singularRelation = Str::camel(str_replace('_id', '', strtolower($this->inputs[1])));
+                    $singularRelation = Str::snake(str_replace('_id', '', strtolower($this->inputs[1])));
                 }
                 $functionName = $singularRelation;
                 $relation = 'belongsTo';
@@ -77,28 +77,106 @@ class GeneratorFieldRelation
         return '';
     }
 
+    public function getRelationTransformerText()
+    {
+        $singularRelation = (!empty($this->relationName)) ? $this->relationName : Str::snake($this->inputs[0]);
+        $pluralRelation = (!empty($this->relationName)) ? $this->relationName : Str::snake(Str::plural($this->inputs[0]));
+
+        switch ($this->type) {
+            case '1t1':
+                $functionName = $singularRelation;
+                break;
+            case '1tm':
+                $functionName = $pluralRelation;
+                break;
+            case 'mt1':
+                if (!empty($this->relationName)) {
+                    $singularRelation = $this->relationName;
+                } elseif (isset($this->inputs[1])) {
+                    $singularRelation = Str::snake(str_replace('_id', '', strtolower($this->inputs[1])));
+                }
+                $functionName = $singularRelation;
+                break;
+            case 'mtm':
+                $functionName = $pluralRelation;
+                break;
+            case 'hmt':
+                $functionName = $pluralRelation;
+                break;
+            default:
+                $functionName = '';
+                break;
+        }
+
+        if (!empty($functionName)) {
+            return $this->generateTransformerRelation($functionName);
+        }
+
+        return '';
+    }
+
+    public function getRelationName()
+    {
+        $singularRelation = (!empty($this->relationName)) ? $this->relationName : Str::snake($this->inputs[0]);
+        $pluralRelation = (!empty($this->relationName)) ? $this->relationName : Str::snake(Str::plural($this->inputs[0]));
+
+        switch ($this->type) {
+            case '1t1':
+                $functionName = $singularRelation;
+                break;
+            case '1tm':
+                $functionName = $pluralRelation;
+                break;
+            case 'mt1':
+                if (!empty($this->relationName)) {
+                    $singularRelation = $this->relationName;
+                } elseif (isset($this->inputs[1])) {
+                    $singularRelation = Str::snake(str_replace('_id', '', strtolower($this->inputs[1])));
+                }
+                $functionName = $singularRelation;
+                break;
+            case 'mtm':
+                $functionName = $pluralRelation;
+                break;
+            case 'hmt':
+                $functionName = $pluralRelation;
+                break;
+            default:
+                $functionName = '';
+                $relation = '';
+                $relationClass = '';
+                break;
+        }
+
+        if (!empty($functionName) and !empty($relation)) {
+            return $functionName;
+        }
+
+        return '';
+    }
+
     public function getRelationFunctionTextVue()
     {
         $modelName = $this->inputs[0];
         switch ($this->type) {
             case '1t1':
-                $functionName = Str::camel($modelName);
+                $functionName = Str::snake($modelName);
                 $relation = 'hasOne';
                 break;
             case '1tm':
-                $functionName = Str::camel(Str::plural($modelName));
+                $functionName = Str::snake(Str::plural($modelName));
                 $relation = 'hasMany';
                 break;
             case 'mt1':
-                $functionName = Str::camel($modelName);
+                $functionName = Str::snake($modelName);
                 $relation = 'belongsTo';
                 break;
             case 'mtm':
-                $functionName = Str::camel(Str::plural($modelName));
+                $functionName = Str::snake(Str::plural($modelName));
                 $relation = 'belongsTo';
                 break;
             case 'hmt':
-                $functionName = Str::camel(Str::plural($modelName));
+                $functionName = Str::snake(Str::plural($modelName));
                 $relation = 'hasMany';
                 break;
             default:
@@ -108,7 +186,7 @@ class GeneratorFieldRelation
         }
 
         if (!empty($functionName) and !empty($relation)) {
-            $modelPlural = Str::camel(Str::plural($modelName));
+            $modelPlural = Str::snake(Str::plural($modelName));
             return "{$functionName}: {$relation}('{$modelPlural}')";
         }
 
@@ -126,6 +204,31 @@ class GeneratorFieldRelation
         $template = str_replace('$FUNCTION_NAME$', $functionName, $template);
         $template = str_replace('$RELATION$', $relation, $template);
         $template = str_replace('$RELATION_MODEL_NAME$', $modelName, $template);
+
+        if (count($inputs) > 0) {
+            $inputFields = implode("', '", $inputs);
+            $inputFields = ", '".$inputFields."'";
+        } else {
+            $inputFields = '';
+        }
+
+        $template = str_replace('$INPUT_FIELDS$', $inputFields, $template);
+
+        return $template;
+    }
+
+    private function generateTransformerRelation($functionName)
+    {
+        $inputs = $this->inputs;
+        $modelName = array_shift($inputs);
+
+        $template = get_template('model.relationship', 'laravel-generator');
+
+        $template = str_replace('$FUNCTION_NAME$', 'include'. ucfirst($functionName), $template);
+        $template = str_replace('$RELATION_MODEL_NAME$', ucfirst($functionName), $template);
+        $template = str_replace('$RELATION_MODEL_NAME_SNAKE$', Str::snake(lcfirst($functionName)), $template);
+        $template = str_replace('$MODEL_NAME$', $modelName, $template);
+        $template = str_replace('$MODEL_NAME_SNAKE$', Str::snake($modelName), $template);
 
         if (count($inputs) > 0) {
             $inputFields = implode("', '", $inputs);
