@@ -39,7 +39,7 @@ $PRIMARY$
      *
      * @var array
      */
-    public static $rules = [ // TODO: Fill $rules
+    protected $rules = [ // TODO: Fill $rules
         $RULES$
     ];
 

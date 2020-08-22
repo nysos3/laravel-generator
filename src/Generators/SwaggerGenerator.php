@@ -111,9 +111,12 @@ class SwaggerGenerator
 
         $propertyTemplate = get_template('model_docs.property', 'swagger-generator');
 
+        $idProp = self::preparePropertyIdField($propertyTemplate, $fields);
         $properties = self::preparePropertyFields($propertyTemplate, $fields);
+        $props = "$idProp\n *   @OA\Property(\n *     property=\"attributes\",\n *     type=\"object\",\n *     \$PROPERTIES\$\n *   )\n";
+        $props = str_replace('$PROPERTIES$', implode(",\n", $properties), $props);
 
-        $templateData = str_replace('$PROPERTIES$', implode(",\n", $properties), $templateData);
+        $templateData = str_replace('$PROPERTIES$', $props, $templateData);
 
         return $templateData;
     }
@@ -129,6 +132,43 @@ class SwaggerGenerator
         $templates = [];
 
         foreach ($fields as $field) {
+          if ($field['name'] == 'id') {
+            continue;
+          }
+            $fieldName = $field['name'];
+            $type = $field['type'];
+            $format = $field['format'];
+            $propertyTemplate = str_replace('$FIELD_NAME$', $fieldName, $template);
+            $description = $field['description'];
+            if (empty($description)) {
+                $description = $fieldName;
+            }
+            $propertyTemplate = str_replace('$DESCRIPTION$', $description, $propertyTemplate);
+            $propertyTemplate = str_replace('$FIELD_TYPE$', $type, $propertyTemplate);
+            if (!empty($format)) {
+                $format = ",\n *     format=\"".$format.'"';
+            }
+            $propertyTemplate = str_replace('$FIELD_FORMAT$', $format, $propertyTemplate);
+            $templates[] = $propertyTemplate;
+        }
+
+        return $templates;
+    }
+
+    /**
+     * @param $template
+     * @param $fields
+     *
+     * @return array
+     */
+    public static function preparePropertyIdField($template, $fields)
+    {
+        $templates = [];
+
+        foreach ($fields as $field) {
+          if ($field['name'] != 'id') {
+            continue;
+          }
             $fieldName = $field['name'];
             $type = $field['type'];
             $format = $field['format'];
