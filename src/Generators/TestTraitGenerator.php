@@ -40,7 +40,7 @@ class TestTraitGenerator extends BaseGenerator
     {
         $templateData = fill_template($this->commandData->dynamicVars, $templateData);
 
-        $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 1), $this->generateFields()),
+        $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 1).'  ', $this->generateFields()),
             $templateData);
 
         return $templateData;
