@@ -238,9 +238,7 @@ class ModelGenerator extends BaseGenerator
                 $replace .= infy_nl(1)."  const CREATED_AT = $created_at;";
                 $replace .= infy_nl(1)."  const UPDATED_AT = $updated_at;";
                 if ($this->commandData->getOption('softDelete')) {
-                  $replace .= infy_nl(1)."  const DELETED_AT = $deleted_at;\n";
-                } else {
-                  $replace .= "\n";
+                  $replace .= infy_nl(1)."  const DELETED_AT = $deleted_at;";
                 }
             }
         }
