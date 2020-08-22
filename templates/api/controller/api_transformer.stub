@@ -32,7 +32,7 @@ class $MODEL_NAME$Transformer extends TransformerAbstract
   public function transform($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
   {
     return [ // TODO: Update this array
-      $FIELDS$
+    $FIELDS$
     ];
   }
 
