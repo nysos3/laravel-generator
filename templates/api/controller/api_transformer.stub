@@ -29,7 +29,7 @@ class $MODEL_NAME$Transformer extends TransformerAbstract
    *
    * @return array
    */
-  public function transform($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
+  public function transform($MODEL_NAME$ $$MODEL_NAME_SNAKE$)
   {
     return [ // TODO: Update this array
     $FIELDS$

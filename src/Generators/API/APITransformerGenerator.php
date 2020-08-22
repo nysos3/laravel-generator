@@ -33,16 +33,16 @@ class APITransformerGenerator extends BaseGenerator
     $fields = [];
 
     foreach ($this->commandData->fields as $field) {
-      $fields[] = "  '{$field->name}' => \${$this->commandData->dynamicVars['$MODEL_NAME_CAMEL$']}->{$field->name}";
+      $fields[] = "  '{$field->name}' => \${$this->commandData->dynamicVars['$MODEL_NAME_SNAKE$']}->{$field->name}";
     }
 
     $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 1), $fields).',', $templateData);
 
-    $templateData = str_replace('$TRANSFORMER_RELATION_NAMES$',implode(','.infy_nl_tab(1, 2),$this->getRelationNames()),$templateData);
+    $templateData = str_replace('$TRANSFORMER_RELATION_NAMES$',implode(','.infy_nl_tab(1, 1),$this->getRelationNames()).',',$templateData);
 
     $templateData = str_replace(
       '$RELATIONS$',
-      fill_template($this->commandData->dynamicVars, implode(PHP_EOL.infy_nl_tab(1, 1), $this->generateRelations($this->commandData->modelName))),
+      fill_template($this->commandData->dynamicVars, implode(PHP_EOL.infy_nl_tab(1, 0) . '  ', $this->generateRelations($this->commandData->modelName))),
       $templateData
     );
 
