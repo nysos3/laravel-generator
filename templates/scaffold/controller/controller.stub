@@ -32,7 +32,7 @@ class $MODEL_NAME$Controller extends AppBaseController
         $$MODEL_NAME_PLURAL_CAMEL$ = $this->$MODEL_NAME_CAMEL$Repository->$RENDER_TYPE$;
 
         return view('$VIEW_PREFIX$$MODEL_NAME_PLURAL_SNAKE$.index')
-            ->with('$MODEL_NAME_PLURAL_CAMEL$', $$MODEL_NAME_PLURAL_CAMEL$);
+            ->with('$MODEL_NAME_PLURAL_SNAKE$', $$MODEL_NAME_PLURAL_SNAKE$);
     }
 
     /**

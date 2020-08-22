@@ -1,7 +1,7 @@
 export default function(Model, { belongsTo, attr, hasMany }) {
   return Model.extend({
     static: {
-      jsonapiType: '$MODEL_NAME_PLURAL_CAMEL$'
+      jsonapiType: '$MODEL_NAME_PLURAL_SNAKE$'
     },
     attrs: {
       $FIELDS$

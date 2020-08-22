@@ -1,6 +1,6 @@
 /**
      * Display the specified $MODEL_NAME$.
-     * GET|HEAD /$MODEL_NAME_PLURAL_CAMEL$/{id}
+     * GET|HEAD /$MODEL_NAME_PLURAL_SNAKE$/{id}
      *
      * @param  int $id
      *

@@ -1,7 +1,7 @@
 /* 
  * ------------------- Route API CRUD for $MODEL_NAME$ ---------------
  */
-Route::group(['prefix' => '$MODEL_NAME_PLURAL_CAMEL$', 'namespace' => '$PATH_PREFIX$'], function () {
+Route::group(['prefix' => '$MODEL_NAME_PLURAL_SNAKE$', 'namespace' => '$PATH_PREFIX$'], function () {
 	Route::get('/', [
 		'as' => '$API_PREFIX$.$API_VERSION$.$VIEW_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.index',
 		'uses' => '$MODEL_NAME$APIController@index'

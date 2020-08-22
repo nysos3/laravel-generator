@@ -14,12 +14,12 @@ class $MODEL_NAME$Presenter extends BasePresenter
   /**
    * @var string
    */
-  protected $resourceKeyItem = '$MODEL_NAME_PLURAL_CAMEL$';
+  protected $resourceKeyItem = '$MODEL_NAME_PLURAL_SNAKE$';
 
   /**
    * @var string
    */
-  protected $resourceKeyCollection = '$MODEL_NAME_PLURAL_CAMEL$';
+  protected $resourceKeyCollection = '$MODEL_NAME_PLURAL_SNAKE$';
 
   /**
    * Transformer
