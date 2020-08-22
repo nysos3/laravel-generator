@@ -15,7 +15,7 @@ class $MODEL_NAME$ApiTest extends TestCase
   /**
    * @test
    */
-  public function testCreate$MODEL_NAME_CAMEL$()
+  public function testCreate$MODEL_NAME_CAMEL_UCFIRST$()
   {
     $$MODEL_NAME_CAMEL$ = $this->fake$MODEL_NAME$Data();
     $this->response = $this->actingAs($this->authData())->json('POST', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_SNAKE$', $$MODEL_NAME_CAMEL$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
@@ -27,7 +27,7 @@ class $MODEL_NAME$ApiTest extends TestCase
   /**
    * @test
    */
-  public function testRead$MODEL_NAME_CAMEL$()
+  public function testRead$MODEL_NAME_CAMEL_UCFIRST$()
   {
     $$MODEL_NAME_CAMEL$ = $this->make$MODEL_NAME$();
     $this->response = $this->actingAs($this->authData())->json('GET', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_SNAKE$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, [], ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
@@ -38,11 +38,13 @@ class $MODEL_NAME$ApiTest extends TestCase
   /**
    * @test
    */
-  public function testUpdate$MODEL_NAME_CAMEL$()
+  public function testUpdate$MODEL_NAME_CAMEL_UCFIRST$()
   {
     $$MODEL_NAME_CAMEL$ = $this->make$MODEL_NAME$();
     $edited$MODEL_NAME$ = $this->fake$MODEL_NAME$Data();
-
+    if (array_key_exists('id',$edited$MODEL_NAME$)) {
+      unset($edited$MODEL_NAME$['id']);
+    }
     $this->response = $this->actingAs($this->authData())->json('PATCH', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_SNAKE$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, $edited$MODEL_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
 
     $this->assertApiResponse($edited$MODEL_NAME$);
@@ -51,7 +53,7 @@ class $MODEL_NAME$ApiTest extends TestCase
   /**
    * @test
    */
-  public function testDelete$MODEL_NAME_CAMEL$()
+  public function testDelete$MODEL_NAME_CAMEL_UCFIRST$()
   {
     $$MODEL_NAME_CAMEL$ = $this->make$MODEL_NAME$();
     $this->response = $this->actingAs($this->authData())->json('DELETE', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_SNAKE$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, [], ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);

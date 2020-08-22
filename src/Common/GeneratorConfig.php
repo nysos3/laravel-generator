@@ -273,6 +273,7 @@ class GeneratorConfig
 
         $commandData->addDynamicVariable('$MODEL_NAME$', $this->mName);
         $commandData->addDynamicVariable('$MODEL_NAME_CAMEL$', $this->mCamel);
+        $commandData->addDynamicVariable('$MODEL_NAME_CAMEL_UCFIRST$', ucfirst($this->mCamel));
         $commandData->addDynamicVariable('$MODEL_NAME_PLURAL$', $this->mPlural);
         $commandData->addDynamicVariable('$MODEL_NAME_PLURAL_CAMEL$', $this->mCamelPlural);
         $commandData->addDynamicVariable('$MODEL_NAME_SNAKE$', $this->mSnake);
