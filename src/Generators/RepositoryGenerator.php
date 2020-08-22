@@ -37,7 +37,7 @@ class RepositoryGenerator extends BaseGenerator
             }
         }
 
-        $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 2), $searchables), $templateData);
+        $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 1), $searchables), $templateData);
 
         $docsTemplate = get_template('docs.repository', 'laravel-generator');
         $docsTemplate = fill_template($this->commandData->dynamicVars, $docsTemplate);
