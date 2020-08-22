@@ -36,5 +36,5 @@ $SOFT_DELETE_DATES$$PRIMARY$
 
   // TODO: Fill relations
 
-$RELATIONS$
+  $RELATIONS$
 }
