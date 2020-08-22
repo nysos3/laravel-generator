@@ -235,6 +235,7 @@ class GeneratorFieldRelation
         $template = str_replace('$RELATION_MODEL_NAME_SNAKE$', Str::snake(lcfirst($relationModelName)), $template);
         $template = str_replace('$RELATION_NAME$', ucfirst(Str::camel($functionName)), $template);
         $template = str_replace('$RELATION_NAME_SNAKE$', Str::snake(lcfirst($functionName)), $template);
+        $template = str_replace('$RELATION_NAME_SNAKE_PLURAL$', Str::snake(Str::plural(lcfirst($functionName))), $template);
         $template = str_replace('$MODEL_NAME$', $modelName, $template);
         $template = str_replace('$MODEL_NAME_SNAKE$', Str::snake($modelName), $template);
 
