@@ -155,6 +155,12 @@ class GeneratorFieldRelation
         return '';
     }
 
+    public function getRelationModel()
+    {
+      $inputs = $this->inputs;
+      return array_shift($inputs);
+    }
+
     public function getRelationFunctionTextVue()
     {
         $modelName = $this->inputs[0];

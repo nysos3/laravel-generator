@@ -31,6 +31,7 @@ class APITransformerGenerator extends BaseGenerator
     $templateData = fill_template($this->commandData->dynamicVars, $templateData);
 
     $templateData = str_replace('$RELATION_NAMES$',implode(','.infy_nl_tab(1, 2),$this->getRelationNames()),$templateData);
+    $templateData = str_replace('$RELATION_MODELS$',implode(PHP_EOL,$this->getRelationModels()),$templateData);
 
     $templateData = str_replace(
       '$RELATIONS$',
@@ -66,6 +67,20 @@ class APITransformerGenerator extends BaseGenerator
       $relationText = $relation->getRelationName();
       if (!empty($relationText)) {
         $relations[] = "'$relationText'";
+      }
+    }
+
+    return $relations;
+  }
+
+  private function getRelationModels()
+  {
+    $relations = [];
+
+    foreach ($this->commandData->relations as $relation) {
+      $relationText = $relation->getRelationModel();
+      if (!empty($relationText)) {
+        $relations[] = "use {$this->commandData->dynamicVars['$NAMESPACE_MODEL$']}\\$relationText;";
       }
     }
 
