@@ -36,5 +36,5 @@ class $MODEL_NAME$Transformer extends TransformerAbstract
     ];
   }
 
-  $RELATIONS$
+$RELATIONS$
 }
