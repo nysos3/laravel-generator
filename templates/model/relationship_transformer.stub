@@ -1,10 +1,10 @@
 /**
-  * Include $RELATION_MODEL_NAME$
-  *
-  * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_SNAKE$
-  *
-  * @return \League\Fractal\Resource\Item
-  */
+   * Include $RELATION_MODEL_NAME$
+   *
+   * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_SNAKE$
+   *
+   * @return \League\Fractal\Resource\Item
+   */
   public function $FUNCTION_NAME$($MODEL_NAME$ $$MODEL_NAME_SNAKE$)
   {
     if (!is_null($$MODEL_NAME_SNAKE$->$RELATION_NAME_SNAKE$)) {
