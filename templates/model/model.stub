@@ -9,33 +9,33 @@ $DOCS$
 class $MODEL_NAME$ extends BaseModel
 {
 $SOFT_DELETE$
-    public $table = '$TABLE_NAME$';
-    $TIMESTAMPS$
+  public $table = '$TABLE_NAME$';
+  $TIMESTAMPS$
 $SOFT_DELETE_DATES$
 $PRIMARY$
-    public $fillable = [ // TODO: Correct $fillable
-        $FIELDS$
-    ];
+  public $fillable = [ // TODO: Correct $fillable
+    $FIELDS$
+  ];
 
-    /**
-     * The attributes that should be casted to native types.
-     *
-     * @var array
-     */
-    protected $casts = [ // TODO: Correct $casts
-        $CAST$
-    ];
+  /**
+   * The attributes that should be casted to native types.
+   *
+   * @var array
+   */
+  protected $casts = [ // TODO: Correct $casts
+    $CAST$
+  ];
 
-    /**
-     * Validation rules
-     *
-     * @var array
-     */
-    protected $rules = [ // TODO: Fill $rules
-        $RULES$
-    ];
+  /**
+   * Validation rules
+   *
+   * @var array
+   */
+  protected $rules = [ // TODO: Fill $rules
+    $RULES$
+  ];
 
-    // TODO: Fill relations
+  // TODO: Fill relations
 
-    $RELATIONS$
+  $RELATIONS$
 }
