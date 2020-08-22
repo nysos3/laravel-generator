@@ -25,7 +25,7 @@ class $MODEL_NAME$Transformer extends TransformerAbstract
   /**
    * Transform the $MODEL_NAME$ entity.
    *
-   * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_CAMEL$
+   * @param \$NAMESPACE_MODEL$\$MODEL_NAME$ $$MODEL_NAME_SNAKE$
    *
    * @return array
    */
