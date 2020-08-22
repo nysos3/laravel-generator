@@ -192,9 +192,14 @@ class ModelGenerator extends BaseGenerator
 
         $propertyTemplate = get_template('model_docs.property', 'swagger-generator');
 
+        $idProp = SwaggerGenerator::preparePropertyIdField($propertyTemplate, $fieldTypes);
         $properties = SwaggerGenerator::preparePropertyFields($propertyTemplate, $fieldTypes);
+        $props = "$idProp\n *   @OA\Property(\n *     property=\"attributes\",\n *     type=\"object\",\n\$PROPERTIES\$\n *   )\n";
+        $properties = implode(",\n", $properties);
+        $properties = str_replace(' *   ', ' *     ',$properties);
+        $props = str_replace('$PROPERTIES$', $properties, $props);
 
-        $template = str_replace('$PROPERTIES$', implode(",\n", $properties), $template);
+        $template = str_replace('$PROPERTIES$', $props, $template);
 
         $templateData = str_replace('$DOCS$', $template, $templateData);
 

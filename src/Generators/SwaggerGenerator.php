@@ -111,12 +111,9 @@ class SwaggerGenerator
 
         $propertyTemplate = get_template('model_docs.property', 'swagger-generator');
 
-        $idProp = self::preparePropertyIdField($propertyTemplate, $fields);
         $properties = self::preparePropertyFields($propertyTemplate, $fields);
-        $props = "$idProp\n *   @OA\Property(\n *     property=\"attributes\",\n *     type=\"object\",\n *     \$PROPERTIES\$\n *   )\n";
-        $props = str_replace('$PROPERTIES$', implode(",\n", $properties), $props);
 
-        $templateData = str_replace('$PROPERTIES$', $props, $templateData);
+        $templateData = str_replace('$PROPERTIES$', implode(",\n", $properties), $templateData);
 
         return $templateData;
     }
@@ -132,7 +129,7 @@ class SwaggerGenerator
         $templates = [];
 
         foreach ($fields as $field) {
-          if ($field['name'] == 'id') {
+          if ($field['name'] === 'id') {
             continue;
           }
             $fieldName = $field['name'];
@@ -163,10 +160,8 @@ class SwaggerGenerator
      */
     public static function preparePropertyIdField($template, $fields)
     {
-        $templates = [];
-
         foreach ($fields as $field) {
-          if ($field['name'] != 'id') {
+          if ($field['name'] !== 'id') {
             continue;
           }
             $fieldName = $field['name'];
@@ -183,9 +178,7 @@ class SwaggerGenerator
                 $format = ",\n *          format=\"".$format.'"';
             }
             $propertyTemplate = str_replace('$FIELD_FORMAT$', $format, $propertyTemplate);
-            $templates[] = $propertyTemplate;
+            return $propertyTemplate;
         }
-
-        return $templates;
     }
 }
