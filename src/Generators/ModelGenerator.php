@@ -87,7 +87,7 @@ class ModelGenerator extends BaseGenerator
 
         $templateData = str_replace(
             '$RELATIONS$',
-            fill_template($this->commandData->dynamicVars, implode(PHP_EOL.infy_nl_tab(1, 1), $this->generateRelations())),
+            fill_template($this->commandData->dynamicVars, implode(PHP_EOL.infy_nl_tab(1, 0) . '  ', $this->generateRelations())),
             $templateData
         );
 
