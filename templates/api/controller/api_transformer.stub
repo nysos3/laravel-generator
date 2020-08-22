@@ -19,7 +19,7 @@ class $MODEL_NAME$Transformer extends TransformerAbstract
    * @var array
    */
   protected $availableIncludes = [ // TODO: Update $availableIncludes
-    $RELATION_NAMES$
+    $TRANSFORMER_RELATION_NAMES$
   ];
 
   /**
