@@ -33,7 +33,7 @@ class APITransformerGenerator extends BaseGenerator
     $fields = [];
 
     foreach ($this->commandData->fields as $field) {
-      $fields[] = "'".$field->name."'";
+      $fields[] = "'{$field->name}' => \${$this->commandData->dynamicVars['$MODEL_NAME_CAMEL$']}->{$field->name},";
     }
 
     $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 1), $fields).',', $templateData);
