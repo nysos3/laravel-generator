@@ -107,7 +107,7 @@ class ModelGenerator extends BaseGenerator
                 '$SOFT_DELETE_IMPORT$', "use Illuminate\\Database\\Eloquent\\SoftDeletes;\n",
                 $templateData
             );
-            $templateData = str_replace('$SOFT_DELETE$', infy_tab()."use SoftDeletes;\n", $templateData);
+            $templateData = str_replace('$SOFT_DELETE$', "  use SoftDeletes;\n", $templateData);
             $deletedAtTimestamp = config('laravel_generator.timestamps.deleted_at', 'deleted_at');
             $templateData = str_replace(
                 '$SOFT_DELETE_DATES$', "  protected \$dates = ['".$deletedAtTimestamp."'];\n",
