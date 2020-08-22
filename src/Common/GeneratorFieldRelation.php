@@ -222,7 +222,7 @@ class GeneratorFieldRelation
         $inputs = $this->inputs;
         $modelName = array_shift($inputs);
 
-        $template = get_template('model.relationship', 'laravel-generator');
+        $template = get_template('model.relationship_transformer', 'laravel-generator');
 
         $template = str_replace('$FUNCTION_NAME$', 'include'. ucfirst($functionName), $template);
         $template = str_replace('$RELATION_MODEL_NAME$', ucfirst($functionName), $template);

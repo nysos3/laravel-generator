@@ -49,7 +49,7 @@ class APITransformerGenerator extends BaseGenerator
     $relations = [];
 
     foreach ($this->commandData->relations as $relation) {
-      $relationText = $relation->getRelationFunctionText();
+      $relationText = $relation->getRelationTransformerText();
       if (!empty($relationText)) {
         $relations[] = $relationText;
       }
