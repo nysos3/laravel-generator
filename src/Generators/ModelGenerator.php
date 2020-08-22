@@ -79,11 +79,11 @@ class ModelGenerator extends BaseGenerator
 
         $templateData = str_replace('$PRIMARY$', $primary, $templateData);
 
-        $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 1), $fillables), $templateData);
+        $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 1), $fillables).',', $templateData);
 
-        $templateData = str_replace('$RULES$', implode(','.infy_nl_tab(1, 1), $this->generateRules()), $templateData);
+        $templateData = str_replace('$RULES$', implode(','.infy_nl_tab(1, 1), $this->generateRules()).',', $templateData);
 
-        $templateData = str_replace('$CAST$', implode(','.infy_nl_tab(1, 1), $this->generateCasts()), $templateData);
+        $templateData = str_replace('$CAST$', implode(','.infy_nl_tab(1, 1), $this->generateCasts()).',', $templateData);
 
         $templateData = str_replace(
             '$RELATIONS$',
@@ -235,10 +235,10 @@ class ModelGenerator extends BaseGenerator
                     return !empty($field) ? "'$field'" : 'null';
                 });
 
-                $replace .= infy_nl_tab()."const CREATED_AT = $created_at;";
-                $replace .= infy_nl_tab()."const UPDATED_AT = $updated_at;";
+                $replace .= "  const CREATED_AT = $created_at;";
+                $replace .= "  const UPDATED_AT = $updated_at;";
                 if ($this->commandData->getOption('softDelete')) {
-                  $replace .= infy_nl_tab()."const DELETED_AT = $deleted_at;\n";
+                  $replace .= "  const DELETED_AT = $deleted_at;\n";
                 } else {
                   $replace .= "\n";
                 }
