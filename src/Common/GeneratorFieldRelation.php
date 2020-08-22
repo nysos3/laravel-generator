@@ -77,7 +77,7 @@ class GeneratorFieldRelation
         return '';
     }
 
-    public function getRelationTransformerText()
+    public function getRelationTransformerText($modelName)
     {
         $singularRelation = (!empty($this->relationName)) ? $this->relationName : Str::snake($this->inputs[0]);
         $pluralRelation = (!empty($this->relationName)) ? $this->relationName : Str::snake(Str::plural($this->inputs[0]));
@@ -109,7 +109,7 @@ class GeneratorFieldRelation
         }
 
         if (!empty($functionName)) {
-            return $this->generateTransformerRelation($functionName);
+            return $this->generateTransformerRelation($functionName, $modelName);
         }
 
         return '';
@@ -217,16 +217,18 @@ class GeneratorFieldRelation
         return $template;
     }
 
-    private function generateTransformerRelation($functionName)
+    private function generateTransformerRelation($functionName, $modelName)
     {
         $inputs = $this->inputs;
-        $modelName = array_shift($inputs);
+        $relationModelName = array_shift($inputs);
 
         $template = get_template('model.relationship_transformer', 'laravel-generator');
 
-        $template = str_replace('$FUNCTION_NAME$', 'include'. ucfirst($functionName), $template);
-        $template = str_replace('$RELATION_MODEL_NAME$', ucfirst($functionName), $template);
-        $template = str_replace('$RELATION_MODEL_NAME_SNAKE$', Str::snake(lcfirst($functionName)), $template);
+        $template = str_replace('$FUNCTION_NAME$', 'include'. ucfirst(Str::camel($functionName)), $template);
+        $template = str_replace('$RELATION_MODEL_NAME$', ucfirst(Str::camel($relationModelName)), $template);
+        $template = str_replace('$RELATION_MODEL_NAME_SNAKE$', Str::snake(lcfirst($relationModelName)), $template);
+        $template = str_replace('$RELATION_NAME$', ucfirst(Str::camel($functionName)), $template);
+        $template = str_replace('$RELATION_NAME_SNAKE$', Str::snake(lcfirst($functionName)), $template);
         $template = str_replace('$MODEL_NAME$', $modelName, $template);
         $template = str_replace('$MODEL_NAME_SNAKE$', Str::snake($modelName), $template);
 

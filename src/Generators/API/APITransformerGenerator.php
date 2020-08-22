@@ -34,7 +34,7 @@ class APITransformerGenerator extends BaseGenerator
 
     $templateData = str_replace(
       '$RELATIONS$',
-      fill_template($this->commandData->dynamicVars, implode(PHP_EOL.infy_nl_tab(1, 1), $this->generateRelations())),
+      fill_template($this->commandData->dynamicVars, implode(PHP_EOL.infy_nl_tab(1, 1), $this->generateRelations($this->commandData->modelName))),
       $templateData
     );
 
@@ -44,12 +44,12 @@ class APITransformerGenerator extends BaseGenerator
     $this->commandData->commandInfo($this->fileName);
   }
 
-  private function generateRelations()
+  private function generateRelations($modelName)
   {
     $relations = [];
 
     foreach ($this->commandData->relations as $relation) {
-      $relationText = $relation->getRelationTransformerText();
+      $relationText = $relation->getRelationTransformerText($modelName);
       if (!empty($relationText)) {
         $relations[] = $relationText;
       }
