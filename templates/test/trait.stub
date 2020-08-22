@@ -33,15 +33,15 @@ trait Make$MODEL_NAME$Trait
     return new $MODEL_NAME$($this->fake$MODEL_NAME$Data($$MODEL_NAME_CAMEL$Fields));
   }
 
-    /**
-     * Get fake data of $MODEL_NAME$
-     *
-     * @param array $$MODEL_NAME_CAMEL$Fields
-     * @return array
-     */
-    public function fake$MODEL_NAME$Data($$MODEL_NAME_CAMEL$Fields = [])
-    {
-        $fake = Faker::create();
+  /**
+   * Get fake data of $MODEL_NAME$
+   *
+   * @param array $$MODEL_NAME_CAMEL$Fields
+   * @return array
+   */
+  public function fake$MODEL_NAME$Data($$MODEL_NAME_CAMEL$Fields = [])
+  {
+    $fake = Faker::create();
 
     return array_merge([ // TODO: Update Faker fields
       $FIELDS$

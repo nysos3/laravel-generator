@@ -2,8 +2,8 @@
 
 namespace $NAMESPACE_API_TESTS$;
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
+use Illuminate\Foundation\Testing\WithoutMiddleware;
 use $NAMESPACE_TESTS$\TestCase;
 use $NAMESPACE_TEST_TRAITS$\Make$MODEL_NAME$Trait;
 use $NAMESPACE_TESTS$\ApiTestTrait;
@@ -19,7 +19,6 @@ class $MODEL_NAME$ApiTest extends TestCase
   {
     $$MODEL_NAME_CAMEL$ = $this->fake$MODEL_NAME$Data();
     $this->response = $this->actingAs($this->authData())->json('POST', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_SNAKE$', $$MODEL_NAME_CAMEL$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
-    $this->json('POST', '/api/v1/$MODEL_NAME_PLURAL_SNAKE$', $$MODEL_NAME_CAMEL$);
 
     $this->assertApiResponse($$MODEL_NAME_CAMEL$);
   }
@@ -45,6 +44,7 @@ class $MODEL_NAME$ApiTest extends TestCase
     if (array_key_exists('id',$edited$MODEL_NAME$)) {
       unset($edited$MODEL_NAME$['id']);
     }
+
     $this->response = $this->actingAs($this->authData())->json('PATCH', '$API_PREFIX_AND_VERSION$/$MODEL_NAME_PLURAL_SNAKE$/' . $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$, $edited$MODEL_NAME$, ['CONTENT_TYPE' => '$API_CONTENT_TYPE$']);
 
     $this->assertApiResponse($edited$MODEL_NAME$);

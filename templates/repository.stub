@@ -8,34 +8,34 @@ use $NAMESPACE_APP$\Repositories\BaseRepository;
 $DOCS$
 class $MODEL_NAME$Repository extends BaseRepository
 {
-    /**
-     * @var array
-     */
-    protected $fieldSearchable = [
-        $FIELDS$
-    ];
+  /**
+   * @var array
+   */
+  protected $fieldSearchable = [
+    $FIELDS$
+  ];
 
-    /**
-     * Return searchable fields
-     *
-     * @return array
-     */
-    public function getFieldsSearchable()
-    {
-        return $this->fieldSearchable;
-    }
+  /**
+   * Return searchable fields
+   *
+   * @return array
+   */
+  public function getFieldsSearchable()
+  {
+    return $this->fieldSearchable;
+  }
 
-    /**
-     * Configure the Model
-     **/
-    public function model()
-    {
-        return $MODEL_NAME$::class;
-    }
+  /**
+   * Configure the Model
+   **/
+  public function model()
+  {
+    return $MODEL_NAME$::class;
+  }
 
-    public function create(array $attributes)
-    {
-      // TODO: Add any on-create fills/transformations
-      return parent::create($attributes);
-    }
+  public function create(array $attributes)
+  {
+    // TODO: Add any on-create fills/transformations
+    return parent::create($attributes);
+  }
 }

@@ -58,6 +58,9 @@ class $MODEL_NAME$RepositoryTest extends TestCase
   {
     $$MODEL_NAME_CAMEL$ = $this->make$MODEL_NAME$();
     $fake$MODEL_NAME$ = $this->fake$MODEL_NAME$Data();
+    if (array_key_exists('id',$fake$MODEL_NAME$)) {
+      unset($fake$MODEL_NAME$['id']);
+    }
     $updated$MODEL_NAME$ = $this->$MODEL_NAME_CAMEL$Repo->update($fake$MODEL_NAME$, $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$);
     $this->assertRepositoryModelData($fake$MODEL_NAME$, $updated$MODEL_NAME$->toArray());
     $db$MODEL_NAME$ = $this->$MODEL_NAME_CAMEL$Repo->find($$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$);
