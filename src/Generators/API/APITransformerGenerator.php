@@ -30,6 +30,14 @@ class APITransformerGenerator extends BaseGenerator
 
     $templateData = fill_template($this->commandData->dynamicVars, $templateData);
 
+    $fields = [];
+
+    foreach ($this->commandData->fields as $field) {
+      $fields[] = "'".$field->name."'";
+    }
+
+    $templateData = str_replace('$FIELDS$', implode(','.infy_nl_tab(1, 1), $fields).',', $templateData);
+
     $templateData = str_replace('$TRANSFORMER_RELATION_NAMES$',implode(','.infy_nl_tab(1, 2),$this->getRelationNames()),$templateData);
 
     $templateData = str_replace(

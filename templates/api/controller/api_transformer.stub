@@ -31,11 +31,8 @@ class $MODEL_NAME$Transformer extends TransformerAbstract
    */
   public function transform($MODEL_NAME$ $$MODEL_NAME_CAMEL$)
   {
-    return [
-      'id' => $$MODEL_NAME_CAMEL$->id,
-      // TODO: Fill this array
-      'created_at' => $$MODEL_NAME_CAMEL$->created_at,
-      'updated_at' => $$MODEL_NAME_CAMEL$->updated_at
+    return [ // TODO: Update this array
+      $FIELDS$
     ];
   }
 
