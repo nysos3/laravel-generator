@@ -1,5 +1,6 @@
 <?php
 namespace $NAMESPACE_TEST_TRAITS$;
+
 use Faker\Factory as Faker;
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
 use $NAMESPACE_REPOSITORY$\$MODEL_NAME$Repository;
@@ -17,9 +18,9 @@ trait Make$MODEL_NAME$Trait
   {
     /** @var $MODEL_NAME$Repository $$MODEL_NAME_CAMEL$Repo */
     $$MODEL_NAME_CAMEL$Repo = App::make($MODEL_NAME$Repository::class);
-    $theme = $this->fake$MODEL_NAME$Data($$MODEL_NAME_CAMEL$Fields);
+    $$MODEL_NAME_CAMEL$ = $this->fake$MODEL_NAME$Data($$MODEL_NAME_CAMEL$Fields);
     auth()->setUser($this->authData());
-    return $$MODEL_NAME_CAMEL$Repo->create($theme);
+    return $$MODEL_NAME_CAMEL$Repo->create($$MODEL_NAME_CAMEL$);
   }
 
   /**
