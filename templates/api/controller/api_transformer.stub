@@ -3,16 +3,14 @@
 namespace $NAMESPACE_API_TRANSFORMER$;
 
 use $NAMESPACE_MODEL$\$MODEL_NAME$;
-use League\Fractal\TransformerAbstract;
 
 /**
  * Class $MODEL_NAME$Transformer.
  *
  * @package namespace $NAMESPACE_API_TRANSFORMER$;
  */
-class $MODEL_NAME$Transformer extends TransformerAbstract
+class $MODEL_NAME$Transformer extends BaseTransformer
 {
-
   /**
    * List of resources possible to include
    *
@@ -29,7 +27,7 @@ class $MODEL_NAME$Transformer extends TransformerAbstract
    *
    * @return array
    */
-  public function transform($MODEL_NAME$ $$MODEL_NAME_SNAKE$)
+  public function transformSetup($MODEL_NAME$ $$MODEL_NAME_SNAKE$)
   {
     return [ // TODO: Update this array
     $FIELDS$
