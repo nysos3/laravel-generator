@@ -62,16 +62,20 @@ class VueModelGenerator extends BaseGenerator
         $fields = [];
 
         foreach ($this->commandData->fields as $field) {
-            $camel = Str::camel($field->name);
+            $snake = Str::snake($field->name);
             $options = [];
             if (in_array($field->name, $this->excluded_fields)) {
                 $options['persist'] = false;
             }
             if (empty($options)) {
-                $fields[] = "{$camel}: attr()";
+                $fields[] = "{$snake}: attr()";
             } else {
                 $options = json_encode($options);
-                $fields[] = "{$camel}: attr({$options})";
+                $options = str_replace('"', '', $options);
+                $options = str_replace(':', ': ', $options);
+                $options = str_replace('{', '{ ', $options);
+                $options = str_replace('}', ' }', $options);
+                $fields[] = "{$snake}: attr({$options})";
             }
         }
 
@@ -80,7 +84,7 @@ class VueModelGenerator extends BaseGenerator
             $fields[] = $relation;
         }
 
-        $templateData = str_replace('$FIELDS$', implode(','.PHP_EOL.'      ', $fields), $templateData);
+        $templateData = str_replace('$FIELDS$', implode(','.PHP_EOL.'      ', $fields).',', $templateData);
 
         return $templateData;
     }

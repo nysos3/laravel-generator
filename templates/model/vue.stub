@@ -1,10 +1,14 @@
 export default function(Model, { belongsTo, attr, hasMany }) {
   return Model.extend({
     static: {
-      jsonapiType: '$MODEL_NAME_PLURAL_SNAKE$'
+      jsonapiType: '$MODEL_NAME_PLURAL_SNAKE$',
+      model: '$MODEL_NAME_CAMEL_UCFIRST$',
     },
     attrs: {
       $FIELDS$
-    }
+    },
+    methods: {
+      getClassName: () => '$MODEL_NAME_CAMEL_UCFIRST$',
+    },
   })
 }
