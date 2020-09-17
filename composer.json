@@ -1,55 +1,61 @@
 {
-    "name": "infyomlabs/laravel-generator",
-    "description": "InfyOm Laravel Generator",
-    "keywords": [
-        "laravel",
-        "api",
-        "model",
-        "request",
-        "migration",
-        "model",
-        "crud",
-        "repository",
-        "view",
-        "test",
-        "generator",
-        "swagger"
-    ],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Mitul Golakiya",
-            "email": "me@mitul.me"
-        }
-    ],
-    "require": {
-        "php": ">=5.5.9",
-        "illuminate/support": "^5.8|^6.0|^7.0|^8.0",
-        "prettus/l5-repository": "~2.6",
-        "laracasts/flash": "~3.0"
+  "name": "infyomlabs/laravel-generator",
+  "description": "InfyOm Laravel Generator",
+  "keywords": [
+    "laravel",
+    "api",
+    "model",
+    "request",
+    "migration",
+    "model",
+    "crud",
+    "repository",
+    "view",
+    "test",
+    "generator",
+    "swagger"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mitul Golakiya",
+      "email": "me@mitul.me"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/nysos3/l5-repository"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "illuminate/support": "^5.8|^6.0|^7.0|^8.0",
+    "prettus/l5-repository": "dev-master",
+    "laracasts/flash": "~3.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "~5.0",
+    "mockery/mockery": "~0.9"
+  },
+  "autoload": {
+    "psr-4": {
+      "InfyOm\\Generator\\": "src/"
     },
-    "require-dev": {
-        "phpunit/phpunit": "~5.0",
-        "mockery/mockery": "~0.9"
-    },
-    "autoload": {
-        "psr-4": {
-            "InfyOm\\Generator\\": "src/"
-        },
-        "files": [
-            "src/helpers.php"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "Tests\\": "tests/"
-        }
-    },
-    "extra": {
-        "laravel": {
-            "providers": [
-                "\\InfyOm\\Generator\\InfyOmGeneratorServiceProvider"
-            ]
-        }
-    }    
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "\\InfyOm\\Generator\\InfyOmGeneratorServiceProvider"
+      ]
+    }
+  }
 }
